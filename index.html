@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" data-skin="exchange" data-theme="light" style="--hdr-h: 95px">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&amp;family=Roboto:wght@400;500;700&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      crossorigin=""
+      href="/src/assets/css/index-BsqASRg5.css"
+    />
+    <link
+      rel="stylesheet"
+      crossorigin=""
+      href="/src/assets/css/style_a23.css"
+    />
+    <style>
+      html,
+      body {
+        background: #0b0b0c;
+      }
+      .splash {
+        z-index: 200;
+        background: #0b0b0c;
+        place-items: center;
+        display: grid;
+        position: fixed;
+        inset: 0;
+      }
+      html[data-theme="light"],
+      html[data-theme="light"] body,
+      html[data-theme="light"] .splash {
+        background: #f7f2e8;
+      }
+      .splash .ld-emblem {
+        width: 150px;
+        height: 60px;
+      }
+      .ld-sevi {
+        width: 96px;
+        height: auto;
+        margin: 0 auto;
+        display: block;
+      }
+      .ld-sevi + .ld-emblem,
+      .splash .ld-word,
+      .splash .ld-bar {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
