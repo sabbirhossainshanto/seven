@@ -1,4 +1,4 @@
-export const FilterLiveVirtual = (liveVirtual, category, data, inPlay) => {
+export const filterLiveVirtual = (liveVirtual, category, data, inPlay) => {
   if (!data) return [];
   const categorySettings = liveVirtual.filter(
     (item) => item.eventTypeId === category,
@@ -13,8 +13,8 @@ export const FilterLiveVirtual = (liveVirtual, category, data, inPlay) => {
 
   const groupedData = Object.entries(data)
     .filter(([, value]) => {
-      // if (value.eventTypeId !== category) return false;
-      // if (value.inPlay !== inPlay) return false;
+      if (value.eventTypeId !== category) return false;
+      if (value.inPlay !== inPlay) return false;
       if (!value.visible) return false;
 
       const isSRL = value.eventName?.toLowerCase().includes("srl") ?? false;
@@ -28,8 +28,8 @@ export const FilterLiveVirtual = (liveVirtual, category, data, inPlay) => {
       // virtual only
       return isSRL;
     })
-    .sort(([, a], [, b]) => b.inPlay - a.inPlay)
-    .sort(([, a], [, b]) => a.sort - b.sort);
+    .sort(([, a], [, b]) => b.inPlay - a.inPlay);
+  // .sort(([, a], [, b]) => a.sort - b.sort);
 
   return groupedData;
 };

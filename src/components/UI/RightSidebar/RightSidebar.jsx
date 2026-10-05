@@ -1,147 +1,41 @@
-import { useDispatch, useSelector } from "react-redux";
-import Unauthorized from "./Unauthorized";
-import AuthIn from "./AuthIn";
-import { setShowLeftDrawer } from "../../../redux/features/global/globalSlice";
-import { Link } from "react-router-dom";
-
-const Header = () => {
-  const { token } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-
+const RightSidebar = () => {
   return (
-    <header className="top">
-      <div className="top-in">
-        <button
-          onClick={() => dispatch(setShowLeftDrawer(true))}
-          className="menu-btn"
-          id="menuBtn"
-          aria-label="All sports menu"
-          aria-expanded="false"
-          aria-controls="sportsDrawer"
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-        <Link className="brand" to="/" aria-label="SevenX home">
-          <svg className="emblem" viewBox="0 0 120 48" aria-hidden="true">
-            <defs>
-              <linearGradient id="eg" x1={0} y1={0} x2={0} y2={1}>
-                <stop offset={0} stopColor="#F3E2B3" />
-                <stop offset=".45" stopColor="#C9A45C" />
-                <stop offset=".55" stopColor="#B38D46" />
-                <stop offset={1} stopColor="#7E5E26" />
-              </linearGradient>
-              <linearGradient id="shine" x1={0} y1={0} x2={1} y2={0}>
-                <stop offset={0} stopColor="#fff" stopOpacity={0} />
-                <stop offset=".5" stopColor="#fff" stopOpacity=".95" />
-                <stop offset={1} stopColor="#fff" stopOpacity={0} />
-              </linearGradient>
-              <g id="wingShape">
-                <path d="M47 13C35 8 18 6 3 8C17 13 33 17 47 20Z" />
-                <path d="M47 20C35 17.5 21 17 9 18.5C21 22 35 24 47 25.5Z" />
-                <path d="M47 25.5C38 25 28 26 18 28.5C28 31 39 31 47 31Z" />
-              </g>
-              <path
-                id="shieldShape"
-                d="M60 5L73 11.5V27C73 34.5 67 40 60 43.5C53 40 47 34.5 47 27V11.5Z"
-              />
-              <clipPath id="emClip">
-                <use href="#wingShape" />
-                <use
-                  href="#wingShape"
-                  transform="translate(120 0) scale(-1 1)"
-                />
-                <use href="#shieldShape" />
-              </clipPath>
-            </defs>
-            <g className="wing-l" fill="url(#eg)">
-              <path
-                className="f f1"
-                d="M47 13C35 8 18 6 3 8C17 13 33 17 47 20Z"
-              />
-              <path
-                className="f f2"
-                d="M47 20C35 17.5 21 17 9 18.5C21 22 35 24 47 25.5Z"
-              />
-              <path
-                className="f f3"
-                d="M47 25.5C38 25 28 26 18 28.5C28 31 39 31 47 31Z"
-              />
-            </g>
-            <g className="wing-r" fill="url(#eg)">
-              <g transform="translate(120 0) scale(-1 1)">
-                <path
-                  className="f f1"
-                  d="M47 13C35 8 18 6 3 8C17 13 33 17 47 20Z"
-                />
-                <path
-                  className="f f2"
-                  d="M47 20C35 17.5 21 17 9 18.5C21 22 35 24 47 25.5Z"
-                />
-                <path
-                  className="f f3"
-                  d="M47 25.5C38 25 28 26 18 28.5C28 31 39 31 47 31Z"
-                />
-              </g>
-            </g>
-            <g className="shield">
-              <use
-                href="#shieldShape"
-                fill="#0E0D0B"
-                stroke="url(#eg)"
-                strokeWidth="1.5"
-              />
-              <path
-                d="M60 8.5L70 13.5V26.6C70 32.6 65.4 37 60 40C54.6 37 50 32.6 50 26.6V13.5Z"
-                fill="none"
-                stroke="url(#eg)"
-                strokeWidth=".5"
-                opacity=".55"
-              />
-              <text
-                x={60}
-                y={31}
-                textAnchor="middle"
-                fontFamily="Jost,system-ui,sans-serif"
-                fontWeight={500}
-                fontSize={19}
-                fill="url(#eg)"
-              >
-                7
-              </text>
-            </g>
-            <g clipPath="url(#emClip)">
-              <rect
-                className="glint"
-                x={-30}
-                y={-10}
-                width={22}
-                height={70}
-                fill="url(#shine)"
-                transform="skewX(-20)"
-              />
-            </g>
-          </svg>
-          <span className="brand-sevi">
+    <aside className="right">
+      <div className="slip" id="slip-desktop">
+        <div className="bs-tabs" role="tablist">
+          <button role="tab" aria-selected="true">
+            Betslip <span className="cnt">0</span>
+          </button>
+          <button role="tab" aria-selected="false">
+            Open bets <span className="cnt">0</span>
+          </button>
+        </div>
+        <div className="oc">
+          <button className="oc-sw" role="switch" aria-checked="false">
+            <i />
+            <span>One-click betting</span>
+          </button>
+        </div>
+        <div className="empty">
+          <div className="slip-sevi">
             <svg
-              className="sevi pose-idle"
+              className="sevi pose-wave"
               viewBox="-10 -6 180 186"
               aria-hidden="true"
             >
               <defs>
-                <linearGradient id="sv1g" x1={0} y1={0} x2="0.35" y2={1}>
+                <linearGradient id="sv2g" x1={0} y1={0} x2="0.35" y2={1}>
                   <stop offset={0} stopColor="#FFF1C2" />
                   <stop offset=".35" stopColor="#E9C872" />
                   <stop offset=".7" stopColor="#C9A04F" />
                   <stop offset={1} stopColor="#8E6A2A" />
                 </linearGradient>
-                <linearGradient id="sv1w" x1={0} y1={0} x2={0} y2={1}>
+                <linearGradient id="sv2w" x1={0} y1={0} x2={0} y2={1}>
                   <stop offset={0} stopColor="#F6E6BA" />
                   <stop offset=".55" stopColor="#C9A45C" />
                   <stop offset={1} stopColor="#7E5E26" />
                 </linearGradient>
-                <radialGradient id="sv1e" cx=".45" cy=".4" r=".6">
+                <radialGradient id="sv2e" cx=".45" cy=".4" r=".6">
                   <stop offset={0} stopColor="#fff" />
                   <stop offset={1} stopColor="#F1EBDD" />
                 </radialGradient>
@@ -157,7 +51,7 @@ const Header = () => {
               <g className="sv-all">
                 <g
                   className="sv-wl"
-                  fill="url(#sv1w)"
+                  fill="url(#sv2w)"
                   stroke="#6B4E1C"
                   strokeWidth=".8"
                   strokeLinejoin="round"
@@ -169,7 +63,7 @@ const Header = () => {
                 </g>
                 <g
                   className="sv-wr"
-                  fill="url(#sv1w)"
+                  fill="url(#sv2w)"
                   stroke="#6B4E1C"
                   strokeWidth=".8"
                   strokeLinejoin="round"
@@ -235,7 +129,7 @@ const Header = () => {
                 <path
                   className="sv-seven"
                   d="M44 30H122Q134 30 130 42L96 156Q93 164 84 164H70Q60 164 63 154L92 76H44Q34 76 34 66V40Q34 30 44 30Z"
-                  fill="url(#sv1g)"
+                  fill="url(#sv2g)"
                   stroke="#3A2A10"
                   strokeWidth={3}
                   strokeLinejoin="round"
@@ -261,7 +155,7 @@ const Header = () => {
                 >
                   <path
                     d="M64 30L62 12L73 21L82 8L91 21L102 12L100 30Z"
-                    fill="url(#sv1w)"
+                    fill="url(#sv2w)"
                     stroke="#3A2A10"
                     strokeWidth={2}
                     strokeLinejoin="round"
@@ -307,7 +201,7 @@ const Header = () => {
                     cy={53}
                     rx={8}
                     ry="9.5"
-                    fill="url(#sv1e)"
+                    fill="url(#sv2e)"
                     stroke="#3A2A10"
                     strokeWidth={2}
                   />
@@ -316,7 +210,7 @@ const Header = () => {
                     cy={53}
                     rx={8}
                     ry="9.5"
-                    fill="url(#sv1e)"
+                    fill="url(#sv2e)"
                     stroke="#3A2A10"
                     strokeWidth={2}
                   />
@@ -372,26 +266,35 @@ const Header = () => {
                 <path d="M150 110l1.4 3.4 3.4 1.4-3.4 1.4-1.4 3.4-1.4-3.4-3.4-1.4 3.4-1.4z" />
               </g>
             </svg>
+          </div>
+          Click a price to add a selection.
+          <br />
+          <span style={{ fontSize: "12px" }}>
+            Blue to back (bet for) · pink to lay (bet against)
           </span>
-        </Link>
-        <nav className="top-nav" aria-label="Main">
-          <button data-nav="home" aria-current="page">
-            Sports
-          </button>
-          <button data-nav="inplay">In-play</button>
-          <div className="nav-dd">
-            <button data-nav="casino" aria-haspopup="true">
-              Casino{" "}
+        </div>
+        <div className="slip-foot">
+          <div className="tot">
+            <span>Liability</span>
+            <b style={{ color: "var(--loss)" }} data-slip-liab>
+              0.00
+            </b>
+          </div>
+          <label className="bs-chk">
+            <input type="checkbox" />
+            Confirm bets before placing
+          </label>
+          <div data-slip-lvl />
+          <div className="bs-act">
+            <button className="bs-cancel">Cancel all</button>
+            <button className="bs-place" data-place disabled>
+              Log in to bet
             </button>
           </div>
-
-          <button data-nav="partners">Refer &amp; Win</button>
-        </nav>
-        <div className="spacer" />
-        {token ? <AuthIn /> : <Unauthorized />}
+        </div>
       </div>
-    </header>
+    </aside>
   );
 };
 
-export default Header;
+export default RightSidebar;

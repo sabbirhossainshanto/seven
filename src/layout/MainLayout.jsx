@@ -7,13 +7,21 @@ import Footer from "../components/UI/Footer/Footer";
 import MobileBottomTab from "../components/UI/MobileBottomTab/MobileBottomTab";
 import Login from "../components/modals/Login/Login";
 import Register from "../components/modals/Register/Register";
+import LeftDrawer from "../components/modals/LeftDrawer/LeftDrawer";
+import RightDrawer from "../components/modals/RightDrawer/RightDrawer";
+import LeftSidebar from "../components/UI/LeftSidebar/LeftSidebar";
+import RightSidebar from "../components/UI/RightSidebar/RightSidebar";
 
 const MainLayout = () => {
   const [, setShowBuildVersion] = useState(false);
   const stored_build_version = localStorage.getItem("build_version");
-  const { group, showLoginModal, showRegisterModal } = useSelector(
-    (state) => state.global,
-  );
+  const {
+    group,
+    showLoginModal,
+    showRegisterModal,
+    showLeftDrawer,
+    showRightDrawer,
+  } = useSelector((state) => state.global);
   const location = useLocation();
   const ref = useRef();
 
@@ -42,8 +50,10 @@ const MainLayout = () => {
 
   return (
     <Fragment>
+      {showLeftDrawer && <LeftDrawer />}
       {showLoginModal && <Login />}
       {showRegisterModal && <Register />}
+      {showRightDrawer && <RightDrawer />}
       {Settings.metaDescription && (
         <meta name="description" content={Settings.metaDescription} />
       )}
@@ -56,7 +66,14 @@ const MainLayout = () => {
       {Settings.metaTitle && <title>{Settings.metaTitle}</title>}
       <meta name="robots" content="index, follow" />
       <Header />
-      <Outlet />
+      <div className="shell">
+        {/* Left: sports */}
+        <LeftSidebar />
+        {/* Main */}
+        <Outlet />
+        {/* Right: bet slip (desktop) */}
+        <RightSidebar />
+      </div>
       <Footer />
       <MobileBottomTab />
     </Fragment>

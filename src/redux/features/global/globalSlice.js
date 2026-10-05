@@ -15,6 +15,8 @@ const initialState = {
   showAPKModal: false,
   windowWidth: window.innerWidth,
   closePopupForForever: false,
+  showLeftDrawer: false,
+  showRightDrawer: false,
 };
 
 const stateSlice = createSlice({
@@ -63,6 +65,12 @@ const stateSlice = createSlice({
     setClosePopUpForForever: (state, action) => {
       state.closePopupForForever = action.payload;
     },
+    setShowLeftDrawer: (state, action) => {
+      state.showLeftDrawer = action.payload;
+    },
+    setShowRightDrawer: (state, action) => {
+      state.showRightDrawer = action.payload;
+    },
   },
 });
 
@@ -81,6 +89,8 @@ export const {
   setShowAPKModal,
   setClosePopUpForForever,
   setShowChangePasswordModal,
+  setShowLeftDrawer,
+  setShowRightDrawer,
 } = stateSlice.actions;
 
 export default stateSlice.reducer;

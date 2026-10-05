@@ -16,6 +16,7 @@ import LossBackBonus from "../pages/LossBackBonus/LossBackBonus";
 import AppOnlyBonus from "../pages/AppOnlyBonus/AppOnlyBonus";
 import CasinoIFrame from "../pages/CasinoIFrame/CasinoIFrame";
 import OpenBets from "../pages/OpenBets/OpenBets";
+import EventDetails from "../pages/EventDetails/EventDetails";
 
 export const router = createBrowserRouter(
   [
@@ -27,6 +28,10 @@ export const router = createBrowserRouter(
         {
           index: true,
           element: <Home />,
+        },
+        {
+          path: "/event-details/:eventTypeId/:eventId",
+          element: <EventDetails />,
         },
 
         {
