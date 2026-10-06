@@ -120,7 +120,6 @@ const InPlay = () => {
 
               {data &&
                 groupedData.map(([keys]) => {
-                  console.log(data);
                   return (
                     <div
                       onClick={() => navigateGameList(keys)}

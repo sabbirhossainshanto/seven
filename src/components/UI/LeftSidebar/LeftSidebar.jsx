@@ -1,10 +1,23 @@
+import { useDispatch, useSelector } from "react-redux";
+import { setGroup } from "../../../redux/features/global/globalSlice";
+import useLanguage from "../../../hooks/use-language";
+import { LanguageKey } from "../../../const";
+
 const LeftSidebar = () => {
+  const { getLanguage } = useLanguage();
+  const dispatch = useDispatch();
+  const { group } = useSelector((state) => state.global);
+
   return (
     <aside className="left">
       <div className="side">
-        <h4>Sports</h4>
+        <h4>{getLanguage(LanguageKey.SPORTS)}</h4>
         <div id="sportlist">
-          <button className="sp" aria-current="true">
+          <button
+            onClick={() => dispatch(setGroup(0))}
+            className="sp"
+            aria-current={group === 0 ? "true" : "false"}
+          >
             <svg
               className="si si-all"
               style={{ "--t": "-0.363s" }}
@@ -41,11 +54,15 @@ const LeftSidebar = () => {
                 stroke="none"
               />
             </svg>
-            <span className="sp-name">All sports</span>
-            <span className="live">● 5</span>
-            <span className="n">20</span>
+            <span className="sp-name">
+              {getLanguage(LanguageKey.ALL_SPORTS)}
+            </span>
           </button>
-          <button className="sp" aria-current="false">
+          <button
+            onClick={() => dispatch(setGroup(4))}
+            className="sp"
+            aria-current={group === 4 ? "true" : "false"}
+          >
             <svg
               className="si si-cricket"
               style={{ "--t": "-0.363s" }}
@@ -82,11 +99,13 @@ const LeftSidebar = () => {
                 stroke="none"
               />
             </svg>
-            <span className="sp-name">Cricket</span>
-            <span className="live">● 3</span>
-            <span className="n">14</span>
+            <span className="sp-name">{getLanguage(LanguageKey.CRICKET)}</span>
           </button>
-          <button className="sp" aria-current="false">
+          <button
+            onClick={() => dispatch(setGroup(1))}
+            className="sp"
+            aria-current={group === 1 ? "true" : "false"}
+          >
             <svg
               className="si si-football"
               style={{ "--t": "-0.363s" }}
@@ -130,11 +149,13 @@ const LeftSidebar = () => {
                 </g>
               </g>
             </svg>
-            <span className="sp-name">Football</span>
-            <span className="live">● 9</span>
-            <span className="n">62</span>
+            <span className="sp-name">{getLanguage(LanguageKey.FOOTBALL)}</span>
           </button>
-          <button className="sp" aria-current="false">
+          <button
+            onClick={() => dispatch(setGroup(2))}
+            className="sp"
+            aria-current={group === 2 ? "true" : "false"}
+          >
             <svg
               className="si si-tennis"
               style={{ "--t": "-0.363s" }}
@@ -180,58 +201,9 @@ const LeftSidebar = () => {
                 </g>
               </g>
             </svg>
-            <span className="sp-name">Tennis</span>
-            <span className="live">● 6</span>
-            <span className="n">27</span>
+            <span className="sp-name">{getLanguage(LanguageKey.TENNIS)}</span>
           </button>
-          <button className="sp" aria-current="false">
-            <svg
-              className="si si-basketball"
-              style={{ "--t": "-0.363s" }}
-              viewBox="0 0 32 32"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <rect x={8} y={2} width={16} height={8} rx={1} opacity=".55" />
-              <rect
-                x={13}
-                y={5}
-                width={6}
-                height={4}
-                strokeWidth={1}
-                opacity=".55"
-              />
-              <path d="M3 29.2H29" opacity=".35" />
-              <g className="a-hoop">
-                <circle
-                  cx={16}
-                  cy={8}
-                  r="3.3"
-                  fill="currentColor"
-                  fillOpacity=".2"
-                />
-                <path
-                  d="M12.7 8h6.6M16 4.7v6.6M13.6 5.7q2.4 2.3 0 4.6M18.4 5.7q-2.4 2.3 0 4.6"
-                  strokeWidth={1}
-                />
-              </g>
-              <path d="M10.3 12h11.4" strokeWidth="1.9" />
-              <g className="a-net">
-                <path
-                  d="M10.8 12.3l1.8 6.2M21.2 12.3l-1.8 6.2M13.4 12.3l1 6.2M18.6 12.3l-1 6.2M11.9 15.6h8.2M12.6 18.5h6.8"
-                  strokeWidth={1}
-                  opacity=".8"
-                />
-              </g>
-            </svg>
-            <span className="sp-name">Basketball</span>
-            <span className="live">● 2</span>
-            <span className="n">11</span>
-          </button>
+
           <button className="sp" aria-current="false">
             <svg
               className="si si-horse"
@@ -336,7 +308,6 @@ const LeftSidebar = () => {
               </g>
             </svg>
             <span className="sp-name">Horse racing</span>
-            <span className="n">38</span>
           </button>
           <button className="sp" aria-current="false">
             <svg
@@ -371,8 +342,52 @@ const LeftSidebar = () => {
               </g>
             </svg>
             <span className="sp-name">Kabaddi</span>
-            <span className="live">● 1</span>
-            <span className="n">4</span>
+          </button>
+          <button className="sp" aria-current="false">
+            <svg
+              className="si si-basketball"
+              style={{ "--t": "-0.363s" }}
+              viewBox="0 0 32 32"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <rect x={8} y={2} width={16} height={8} rx={1} opacity=".55" />
+              <rect
+                x={13}
+                y={5}
+                width={6}
+                height={4}
+                strokeWidth={1}
+                opacity=".55"
+              />
+              <path d="M3 29.2H29" opacity=".35" />
+              <g className="a-hoop">
+                <circle
+                  cx={16}
+                  cy={8}
+                  r="3.3"
+                  fill="currentColor"
+                  fillOpacity=".2"
+                />
+                <path
+                  d="M12.7 8h6.6M16 4.7v6.6M13.6 5.7q2.4 2.3 0 4.6M18.4 5.7q-2.4 2.3 0 4.6"
+                  strokeWidth={1}
+                />
+              </g>
+              <path d="M10.3 12h11.4" strokeWidth="1.9" />
+              <g className="a-net">
+                <path
+                  d="M10.8 12.3l1.8 6.2M21.2 12.3l-1.8 6.2M13.4 12.3l1 6.2M18.6 12.3l-1 6.2M11.9 15.6h8.2M12.6 18.5h6.8"
+                  strokeWidth={1}
+                  opacity=".8"
+                />
+              </g>
+            </svg>
+            <span className="sp-name">Basketball</span>
           </button>
         </div>
       </div>

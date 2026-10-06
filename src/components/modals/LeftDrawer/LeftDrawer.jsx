@@ -1,20 +1,29 @@
-import { Fragment } from "react";
+import { Fragment, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { setShowLeftDrawer } from "../../../redux/features/global/globalSlice";
+import useCloseModalClickOutside from "../../../hooks/closeModal";
+import Language from "./Language";
+import useLanguage from "../../../hooks/use-language";
+import { LanguageKey } from "../../../const";
 
 const LeftDrawer = () => {
+  const { getLanguage } = useLanguage();
+  const ref = useRef();
   const dispatch = useDispatch();
+
+  useCloseModalClickOutside(ref, () => dispatch(setShowLeftDrawer(false)));
   return (
     <Fragment>
       <div className="drawer-bg open" id="drawerBg"></div>
       <aside
+        ref={ref}
         className="drawer open"
         id="sportsDrawer"
         aria-label="All sports"
         aria-hidden="false"
       >
         <div className="dr-head">
-          <b>All sports</b>
+          <b>{getLanguage(LanguageKey.ALL_SPORTS)}</b>
           <button
             onClick={() => dispatch(setShowLeftDrawer(false))}
             className="dr-x"
@@ -24,55 +33,15 @@ const LeftDrawer = () => {
           </button>
         </div>
 
-        <div
-          className="dr-lang"
-          data-no-i18n
-          role="group"
-          aria-label="Language"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.7"
-            strokeLinecap="round"
-            aria-hidden="true"
-          >
-            <circle cx={12} cy={12} r="8.5" />
-            <path d="M3.5 12h17M12 3.5c2.6 2.4 3.8 5.2 3.8 8.5s-1.2 6.1-3.8 8.5c-2.6-2.4-3.8-5.2-3.8-8.5s1.2-6.1 3.8-8.5z" />
-          </svg>
-          <button lang="en" aria-pressed="true">
-            English
-          </button>
-          <button lang="hi" aria-pressed="false">
-            हिन्दी
-          </button>
-          <button lang="ta" aria-pressed="false">
-            தமிழ்
-          </button>
-          <button lang="te" aria-pressed="false">
-            తెలుగు
-          </button>
-          <button lang="kn" aria-pressed="false">
-            ಕನ್ನಡ
-          </button>
-          <button lang="ml" aria-pressed="false">
-            മലയാളം
-          </button>
-        </div>
+        <Language />
         <div className="dr-search">
           <input
             id="drQ"
             type="search"
             placeholder="Search sports"
-            defaultValue
             aria-label="Search sports"
           />
         </div>
-        <button className="dr-inplay">
-          <i className="dr-live" />
-          In-play now<span>5 live</span>
-        </button>
 
         <nav className="dr-list" aria-label="Sports">
           <button className="dr-sp" aria-current="true">
@@ -112,9 +81,7 @@ const LeftDrawer = () => {
                 stroke="none"
               />
             </svg>
-            <span className="dr-nm">All sports</span>
-            <span className="dr-lv">● 5</span>
-            <span className="dr-n">20</span>
+            <span className="dr-nm">{getLanguage(LanguageKey.ALL_SPORTS)}</span>
           </button>
           <button className="dr-sp" aria-current="false">
             <svg
@@ -153,9 +120,7 @@ const LeftDrawer = () => {
                 stroke="none"
               />
             </svg>
-            <span className="dr-nm">Cricket</span>
-            <span className="dr-lv">● 3</span>
-            <span className="dr-n">14</span>
+            <span className="dr-nm">{getLanguage(LanguageKey.CRICKET)}</span>
           </button>
           <button className="dr-sp" aria-current="false">
             <svg
@@ -201,9 +166,7 @@ const LeftDrawer = () => {
                 </g>
               </g>
             </svg>
-            <span className="dr-nm">Football</span>
-            <span className="dr-lv">● 9</span>
-            <span className="dr-n">62</span>
+            <span className="dr-nm">{getLanguage(LanguageKey.FOOTBALL)}</span>
           </button>
           <button className="dr-sp" aria-current="false">
             <svg
@@ -251,9 +214,7 @@ const LeftDrawer = () => {
                 </g>
               </g>
             </svg>
-            <span className="dr-nm">Tennis</span>
-            <span className="dr-lv">● 6</span>
-            <span className="dr-n">27</span>
+            <span className="dr-nm">{getLanguage(LanguageKey.TENNIS)}</span>
           </button>
           <button className="dr-sp" aria-current="false">
             <svg
@@ -299,9 +260,7 @@ const LeftDrawer = () => {
                 />
               </g>
             </svg>
-            <span className="dr-nm">Basketball</span>
-            <span className="dr-lv">● 2</span>
-            <span className="dr-n">11</span>
+            <span className="dr-nm">{getLanguage(LanguageKey.BASKETBALL)}</span>
           </button>
           <button className="dr-sp" aria-current="false">
             <svg
@@ -406,8 +365,7 @@ const LeftDrawer = () => {
                 </g>
               </g>
             </svg>
-            <span className="dr-nm">Horse racing</span>
-            <span className="dr-n">38</span>
+            <span className="dr-nm">{getLanguage(LanguageKey.HORSE)}</span>
           </button>
           <button className="dr-sp" aria-current="false">
             <svg
@@ -441,216 +399,10 @@ const LeftDrawer = () => {
                 </g>
               </g>
             </svg>
-            <span className="dr-nm">Kabaddi</span>
-            <span className="dr-lv">● 1</span>
-            <span className="dr-n">4</span>
+            <span className="dr-nm">{getLanguage(LanguageKey.KABADDI)}</span>
           </button>
         </nav>
         <div className="dr-links">
-          <button>Casino</button>
-          <button>Rewards</button>
-          <button>Club</button>
-          <button>Pinned</button>
-          <button className="dr-vault">
-            <svg className="vt-ic" viewBox="0 0 48 48" aria-hidden="true">
-              <rect
-                x={4}
-                y={6}
-                width={40}
-                height={34}
-                rx={5}
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.4"
-              />
-              <circle
-                cx={24}
-                cy={23}
-                r={10}
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.4"
-              />
-              <circle cx={24} cy={23} r="2.6" fill="currentColor" />
-              <path
-                d="M24 13v4M24 29v4M14 23h4M30 23h4"
-                stroke="currentColor"
-                strokeWidth="2.4"
-                strokeLinecap="round"
-              />
-              <path
-                d="M10 40v3M38 40v3"
-                stroke="currentColor"
-                strokeWidth="2.6"
-                strokeLinecap="round"
-              />
-            </svg>
-            Fixed Vault <small>earn daily</small>
-          </button>
-          <button className="dr-pz">
-            <svg className="pz-emblem " viewBox="0 0 64 64" aria-hidden="true">
-              <defs>
-                <linearGradient id="pze5g" x1={0} y1={0} x2={1} y2={1}>
-                  <stop offset={0} stopColor="#FFF6D0" />
-                  <stop offset=".3" stopColor="#F2C94C" />
-                  <stop offset=".55" stopColor="#A8750E" />
-                  <stop offset=".8" stopColor="#F7DA7F" />
-                  <stop offset={1} stopColor="#8C5E0A" />
-                </linearGradient>
-                <radialGradient id="pze5e" cx=".5" cy=".35" r=".7">
-                  <stop offset={0} stopColor="#2B1A10" />
-                  <stop offset=".7" stopColor="#0D0806" />
-                  <stop offset={1} stopColor="#050302" />
-                </radialGradient>
-                <linearGradient id="pze5d" x1={0} y1={0} x2={1} y2={1}>
-                  <stop offset={0} stopColor="#FFFFFF" />
-                  <stop offset=".45" stopColor="#CFEFFF" />
-                  <stop offset=".7" stopColor="#8FD3F5" />
-                  <stop offset={1} stopColor="#FFFFFF" />
-                </linearGradient>
-              </defs>
-              <circle cx={32} cy={32} r="30.5" fill="url(#pze5g)" />
-              <circle cx={32} cy={32} r="28.2" fill="url(#pze5e)" />
-              <circle
-                cx={32}
-                cy={32}
-                r="26.4"
-                fill="none"
-                stroke="url(#pze5g)"
-                strokeWidth=".7"
-                strokeDasharray="1.2 1.6"
-                opacity=".85"
-              />
-              <path
-                d="M0 0C3 -2.5 7 -2.5 9 0C7 2.5 3 2.5 0 0Z"
-                transform="translate(18.05515614710468 51.53308295990081) rotate(215.52338329811107) scale(.62)"
-                fill="url(#pze5g)"
-              />
-              <path
-                d="M0 0C3 -2.5 7 -2.5 9 0C7 2.5 3 2.5 0 0Z"
-                transform="translate(12.478027885055027 45.9603941471332) rotate(234.43099053742822) scale(.62)"
-                fill="url(#pze5g)"
-              />
-              <path
-                d="M0 0C3 -2.5 7 -2.5 9 0C7 2.5 3 2.5 0 0Z"
-                transform="translate(9.007619353058601 38.88116503116693) rotate(253.3385977767454) scale(.62)"
-                fill="url(#pze5g)"
-              />
-              <path
-                d="M0 0C3 -2.5 7 -2.5 9 0C7 2.5 3 2.5 0 0Z"
-                transform="translate(45.94484385289532 51.53308295990081) rotate(-35.523383298111035) scale(.62)"
-                fill="url(#pze5g)"
-              />
-              <path
-                d="M0 0C3 -2.5 7 -2.5 9 0C7 2.5 3 2.5 0 0Z"
-                transform="translate(51.52197211494497 45.9603941471332) rotate(-54.43099053742821) scale(.62)"
-                fill="url(#pze5g)"
-              />
-              <path
-                d="M0 0C3 -2.5 7 -2.5 9 0C7 2.5 3 2.5 0 0Z"
-                transform="translate(54.9923806469414 38.88116503116693) rotate(-73.33859777674537) scale(.62)"
-                fill="url(#pze5g)"
-              />
-              <path
-                d="M26.5 9.2L28.3 12.4L32 8.6L35.7 12.4L37.5 9.2L36.6 14H27.4Z"
-                fill="url(#pze5g)"
-              />
-              <circle cx={32} cy="8.3" r=".9" fill="#FFF6D0" />
-              <g transform="translate(0 1)">
-                <path
-                  d="M20 22H28C28 22 26 18.2 28.8 16.3C30.8 15 33.2 15 35.2 16.3C38 18.2 36 22 36 22H44V30C44 30 47.8 28 49.7 30.8C51 32.8 51 35.2 49.7 37.2C47.8 40 44 38 44 38V46H36C36 46 37.6 42.3 35.2 40.8C33.2 39.6 30.8 39.6 28.8 40.8C26.4 42.3 28 46 28 46H20V38C20 38 23.7 39.6 25.2 37.2C26.4 35.2 26.4 32.8 25.2 30.8C23.7 28.4 20 30 20 30Z"
-                  fill="url(#pze5g)"
-                  stroke="#5E3E06"
-                  strokeWidth=".8"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M21.5 23.5H28.6M36.3 23.5H42.5V29"
-                  fill="none"
-                  stroke="#FFF8DC"
-                  strokeWidth={1}
-                  strokeLinecap="round"
-                  opacity=".8"
-                />
-                <path
-                  d="M32 26.2L37.2 31.2L32 38.6L26.8 31.2Z"
-                  fill="url(#pze5d)"
-                  stroke="#3C6E8A"
-                  strokeWidth=".5"
-                />
-                <path
-                  d="M26.8 31.2H37.2M32 26.2L29.6 31.2L32 38.6L34.4 31.2Z"
-                  fill="none"
-                  stroke="#3C6E8A"
-                  strokeWidth=".35"
-                  opacity=".7"
-                />
-                <path
-                  d="M29.6 31.2L32 26.2L34.4 31.2Z"
-                  fill="#fff"
-                  opacity=".7"
-                />
-              </g>
-              <g className="pz-em-spark" fill="#FFF6D0">
-                <path d="M42 17l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" />
-                <path d="M19 44l.6 1.5 1.5.6-1.5.6-.6 1.5-.6-1.5-1.5-.6 1.5-.6z" />
-              </g>
-            </svg>
-            <span className="dr-pz-t">
-              <small>Private collection</small>
-              <b>Puzzle Club</b>
-            </span>
-            <span className="dr-pz-w">
-              <small>Win up to</small>
-              <b>₹1,00,000</b>
-            </span>
-          </button>
-          <button className="dr-tasks">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.7"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <rect x="3.5" y={5} width={17} height={15} rx={2} />
-              <path d="M3.5 10h17M8 3v4M16 3v4M9 15l2 2 4-4" />
-            </svg>
-            Daily tasks
-          </button>
-          <button className="dr-race">
-            <span aria-hidden="true">♥♠</span>Card Race
-          </button>
-          <button className="dr-wheel">
-            <i className="dr-wh-ic" aria-hidden="true" />
-            Lucky Wheel
-          </button>
-          <button className="dr-skin">
-            <i
-              className="sk-sw"
-              aria-hidden="true"
-              style={{
-                background:
-                  "linear-gradient(135deg,#FFC400 0 50%,#C8102E 50% 100%)",
-              }}
-            />
-            Look: Exchange · change
-          </button>
-          <button className="dr-inbox">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <rect x="3.5" y={9} width={17} height="11.5" rx={1} />
-              <path d="M2.5 9h19V6.5h-19zM12 6.5v14M12 6.5C10 3 6.5 3.5 7.5 6.5M12 6.5c2-3.5 5.5-3 4.5 0" />
-            </svg>
-            Test inbox <small>emails · demo</small>
-          </button>
           <button className="dr-help">
             <svg
               viewBox="0 0 24 24"

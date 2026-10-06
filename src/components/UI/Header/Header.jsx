@@ -1,12 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import Unauthorized from "./Unauthorized";
 import AuthIn from "./AuthIn";
-import { setShowLeftDrawer } from "../../../redux/features/global/globalSlice";
-import { Link } from "react-router-dom";
+import {
+  setGroup,
+  setShowLeftDrawer,
+} from "../../../redux/features/global/globalSlice";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useLanguage from "../../../hooks/use-language";
+import { LanguageKey } from "../../../const";
 
 const Header = () => {
+  const { getLanguage } = useLanguage();
   const { token } = useSelector((state) => state.auth);
+  const { group } = useSelector((state) => state.global);
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <header className="top">
@@ -375,17 +384,28 @@ const Header = () => {
           </span>
         </Link>
         <nav className="top-nav" aria-label="Main">
-          <button data-nav="home" aria-current="page">
-            Sports
+          <button
+            onClick={() => {
+              navigate("/");
+              dispatch(setGroup(0));
+            }}
+            data-nav="home"
+            aria-current={
+              location.pathname === "/" && group === 0 ? "page" : ""
+            }
+          >
+            {getLanguage(LanguageKey.IN_PLAY)}
           </button>
-          <button data-nav="inplay">In-play</button>
+
           <div className="nav-dd">
-            <button data-nav="casino" aria-haspopup="true">
-              Casino{" "}
+            <button
+              onClick={() => navigate("/live-casino")}
+              data-nav="casino"
+              aria-haspopup="true"
+            >
+              {getLanguage(LanguageKey.CASINO)}
             </button>
           </div>
-
-          <button data-nav="partners">Refer &amp; Win</button>
         </nav>
         <div className="spacer" />
         {token ? <AuthIn /> : <Unauthorized />}

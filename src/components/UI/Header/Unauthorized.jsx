@@ -8,8 +8,11 @@ import {
   setShowRegisterModal,
 } from "../../../redux/features/global/globalSlice";
 import toast from "react-hot-toast";
+import useLanguage from "../../../hooks/use-language";
+import { LanguageKey } from "../../../const";
 
 const Unauthorized = () => {
+  const { getLanguage } = useLanguage();
   const { closePopupForForever } = useSelector((state) => state.global);
   const dispatch = useDispatch();
   const [handleLogin] = useLoginMutation();
@@ -85,20 +88,22 @@ const Unauthorized = () => {
               strokeLinecap="round"
             />
           </svg>
-          <span className="demo-top-txt">Demo</span>
+          <span className="demo-top-txt">
+            {getLanguage(LanguageKey.DEMO_LOGIN)}
+          </span>
         </span>
       </button>
       <button
         className="btn login-btn"
         onClick={() => dispatch(setShowLoginModal(true))}
       >
-        Log in
+        {getLanguage(LanguageKey.LOGIN)}
       </button>
       <button
         onClick={() => dispatch(setShowRegisterModal(true))}
         className="btn"
       >
-        Register
+        {getLanguage(LanguageKey.REGISTER)}
       </button>
     </div>
   );

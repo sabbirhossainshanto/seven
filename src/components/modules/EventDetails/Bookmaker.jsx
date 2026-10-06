@@ -7,6 +7,7 @@ import {
   setRunnerId,
 } from "../../../redux/features/events/eventSlice";
 import { setShowLoginModal } from "../../../redux/features/global/globalSlice";
+import MobileBetSlip from "./MobileBetSlip";
 
 const Bookmaker = ({ data }) => {
   const [speedCashOut, setSpeedCashOut] = useState(null);
@@ -262,42 +263,46 @@ const Bookmaker = ({ data }) => {
                   (val) => val?.id === runner?.id,
                 );
                 return (
-                  <div
-                    key={runner?.id}
-                    className="runner"
-                    style={{ gridTemplateColumns: "1fr repeat(2,52px)" }}
-                  >
-                    <div>
-                      <span className="nm">{runner?.name}</span>
-                      <span className="book" data-book="1|0|Bookmaker" />
+                  <Fragment key={runner?.id}>
+                    <div
+                      className="runner"
+                      style={{ gridTemplateColumns: "1fr repeat(2,52px)" }}
+                    >
+                      <div>
+                        <span className="nm">{runner?.name}</span>
+                        <span className="book" data-book="1|0|Bookmaker" />
+                      </div>
+                      <button
+                        onClick={() =>
+                          handleBetSlip(
+                            "back",
+                            game,
+                            runner,
+                            runner?.back?.[0]?.price,
+                          )
+                        }
+                        className="o b main"
+                      >
+                        {runner?.back?.[0]?.price || "-"}
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleBetSlip(
+                            "lay",
+                            game,
+                            runner,
+                            runner?.lay?.[0]?.price,
+                          )
+                        }
+                        className="o l main"
+                      >
+                        {runner?.lay?.[0]?.price || "-"}
+                      </button>
                     </div>
-                    <button
-                      onClick={() =>
-                        handleBetSlip(
-                          "back",
-                          game,
-                          runner,
-                          runner?.back?.[0]?.price,
-                        )
-                      }
-                      className="o b main"
-                    >
-                      {runner?.back?.[0]?.price || "-"}
-                    </button>
-                    <button
-                      onClick={() =>
-                        handleBetSlip(
-                          "lay",
-                          game,
-                          runner,
-                          runner?.lay?.[0]?.price,
-                        )
-                      }
-                      className="o l main"
-                    >
-                      {runner?.lay?.[0]?.price || "-"}
-                    </button>
-                  </div>
+                    {runner?.id === runnerId && (
+                      <MobileBetSlip currentPlaceBetEvent={game} />
+                    )}
+                  </Fragment>
                 );
               })}
             </div>

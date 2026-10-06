@@ -8,6 +8,7 @@ import {
   setRunnerId,
 } from "../../../redux/features/events/eventSlice";
 import { setShowLoginModal } from "../../../redux/features/global/globalSlice";
+import MobileBetSlip from "./MobileBetSlip";
 
 const Fancy = ({ data }) => {
   const fancyData = data?.filter(
@@ -146,46 +147,50 @@ const Fancy = ({ data }) => {
               pnlBySelection?.find((pnl) => pnl?.MarketId === game?.id) || {};
 
             return (
-              <div
-                className={`runner  ${game?.status === "SUSPENDED" ? "suspended" : ""}`}
-                key={game?.id}
-              >
-                <div>
-                  <span className="nm"> {game?.name}</span>
+              <Fragment key={game?.id}>
+                <div
+                  className={`runner  ${game?.status === "SUSPENDED" ? "suspended" : ""}`}
+                >
+                  <div>
+                    <span className="nm"> {game?.name}</span>
 
-                  <span className="book" data-fbook="1|0" />
+                    <span className="book" data-fbook="1|0" />
+                  </div>
+                  <button
+                    onClick={() =>
+                      handleBetSlip(
+                        "lay",
+                        game,
+                        game?.runners?.[0],
+                        game?.runners?.[0]?.lay?.[0]?.line,
+                        game?.runners?.[0]?.lay?.[0]?.price,
+                      )
+                    }
+                    className="o no"
+                  >
+                    {game?.runners?.[0]?.lay?.[0]?.line}
+                    <small> {game?.runners?.[0]?.lay?.[0]?.price}</small>
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleBetSlip(
+                        "back",
+                        game,
+                        game?.runners?.[0],
+                        game?.runners?.[0]?.back?.[0]?.line,
+                        game?.runners?.[0]?.back?.[0]?.price,
+                      )
+                    }
+                    className="o yes"
+                  >
+                    {game?.runners?.[0]?.back?.[0]?.line}
+                    <small>{game?.runners?.[0]?.back?.[0]?.price}</small>
+                  </button>
                 </div>
-                <button
-                  onClick={() =>
-                    handleBetSlip(
-                      "lay",
-                      game,
-                      game?.runners?.[0],
-                      game?.runners?.[0]?.lay?.[0]?.line,
-                      game?.runners?.[0]?.lay?.[0]?.price,
-                    )
-                  }
-                  className="o no"
-                >
-                  {game?.runners?.[0]?.lay?.[0]?.line}
-                  <small> {game?.runners?.[0]?.lay?.[0]?.price}</small>
-                </button>
-                <button
-                  onClick={() =>
-                    handleBetSlip(
-                      "back",
-                      game,
-                      game?.runners?.[0],
-                      game?.runners?.[0]?.back?.[0]?.line,
-                      game?.runners?.[0]?.back?.[0]?.price,
-                    )
-                  }
-                  className="o yes"
-                >
-                  {game?.runners?.[0]?.back?.[0]?.line}
-                  <small>{game?.runners?.[0]?.back?.[0]?.price}</small>
-                </button>
-              </div>
+                {game?.id === runnerId && (
+                  <MobileBetSlip currentPlaceBetEvent={game} />
+                )}
+              </Fragment>
             );
           })}
         </div>

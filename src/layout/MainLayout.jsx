@@ -22,7 +22,7 @@ const MainLayout = () => {
     showLeftDrawer,
     showRightDrawer,
   } = useSelector((state) => state.global);
-  const location = useLocation();
+  const { pathname } = useLocation();
   const ref = useRef();
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const MainLayout = () => {
     } else {
       window.scrollTo(0, 0);
     }
-  }, [location, group]);
+  }, [pathname, group]);
 
   useEffect(() => {
     const newVersion = Settings?.build_version;
@@ -66,14 +66,19 @@ const MainLayout = () => {
       {Settings.metaTitle && <title>{Settings.metaTitle}</title>}
       <meta name="robots" content="index, follow" />
       <Header />
-      <div className="shell">
-        {/* Left: sports */}
-        <LeftSidebar />
-        {/* Main */}
+      {pathname === "/live-casino" || pathname.startsWith("/casino") ? (
         <Outlet />
-        {/* Right: bet slip (desktop) */}
-        <RightSidebar />
-      </div>
+      ) : (
+        <div className="shell">
+          {/* Left: sports */}
+          <LeftSidebar />
+          {/* Main */}
+          <Outlet />
+          {/* Right: bet slip (desktop) */}
+          <RightSidebar />
+        </div>
+      )}
+
       <Footer />
       <MobileBottomTab />
     </Fragment>

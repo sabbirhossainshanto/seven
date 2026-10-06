@@ -2,8 +2,11 @@ import { useDispatch, useSelector } from "react-redux";
 import useBalance from "../../../hooks/balance";
 import { setShowRightDrawer } from "../../../redux/features/global/globalSlice";
 import { useNavigate } from "react-router-dom";
+import useLanguage from "../../../hooks/use-language";
+import { LanguageKey } from "../../../const";
 
 const AuthIn = () => {
+  const { getLanguage } = useLanguage();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data } = useBalance();
@@ -25,7 +28,11 @@ const AuthIn = () => {
         aria-label="My account — balance, statements and settings"
       >
         <small>
-          Balance<span className="exp-part"> · Exposure</span>
+          {getLanguage(LanguageKey.BALANCE)}
+          <span className="exp-part">
+            {" "}
+            · {getLanguage(LanguageKey.EXPOSURE)}
+          </span>
         </small>
         <b>
           <span id="bal">{data?.availBalance}</span>{" "}
@@ -53,7 +60,7 @@ const AuthIn = () => {
               strokeLinecap="round"
             />
           </svg>
-          <span>Deposit</span>
+          <span>{getLanguage(LanguageKey.DEPOSIT)}</span>
         </button>
         <button
           onClick={() => navigate("/withdraw")}
@@ -70,7 +77,7 @@ const AuthIn = () => {
               strokeLinejoin="round"
             />
           </svg>
-          <span>Withdraw</span>
+          <span>{getLanguage(LanguageKey.WITHDRAW)}</span>
         </button>
       </div>
       {/* My account: opens the right-side panel (statements, bank details, settings, log out) */}

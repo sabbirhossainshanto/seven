@@ -17,6 +17,7 @@ import AppOnlyBonus from "../pages/AppOnlyBonus/AppOnlyBonus";
 import CasinoIFrame from "../pages/CasinoIFrame/CasinoIFrame";
 import OpenBets from "../pages/OpenBets/OpenBets";
 import EventDetails from "../pages/EventDetails/EventDetails";
+import LiveCasino from "../pages/LiveCasino/LiveCasino";
 
 export const router = createBrowserRouter(
   [
@@ -96,6 +97,10 @@ export const router = createBrowserRouter(
         {
           path: "/casino/:name/:gameId",
           element: <CasinoIFrame />,
+        },
+        {
+          path: "/live-casino",
+          element: <LiveCasino />,
         },
       ],
     },

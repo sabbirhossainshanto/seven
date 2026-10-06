@@ -1,7 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setGroup } from "../../../redux/features/global/globalSlice";
+import useLanguage from "../../../hooks/use-language";
+import { LanguageKey } from "../../../const";
 
 const SportsTab = () => {
+  const { getLanguage } = useLanguage();
   const { group } = useSelector((state) => state.global);
   const dispatch = useDispatch();
   return (
@@ -47,7 +50,7 @@ const SportsTab = () => {
             stroke="none"
           />
         </svg>
-        All sports
+        {getLanguage(LanguageKey.ALL_SPORTS)}
       </button>
       <button
         onClick={() => dispatch(setGroup(4))}
@@ -90,7 +93,7 @@ const SportsTab = () => {
             stroke="none"
           />
         </svg>
-        Cricket
+        {getLanguage(LanguageKey.CRICKET)}
       </button>
       <button
         onClick={() => dispatch(setGroup(1))}
@@ -140,7 +143,7 @@ const SportsTab = () => {
             </g>
           </g>
         </svg>
-        Football
+        {getLanguage(LanguageKey.FOOTBALL)}
       </button>
       <button
         onClick={() => dispatch(setGroup(2))}
@@ -192,7 +195,7 @@ const SportsTab = () => {
             </g>
           </g>
         </svg>
-        Tennis
+        {getLanguage(LanguageKey.TENNIS)}
       </button>
 
       <button className="chip" aria-pressed="false">
@@ -286,7 +289,7 @@ const SportsTab = () => {
             </g>
           </g>
         </svg>
-        Horse racing
+        {getLanguage(LanguageKey.HORSE)}
       </button>
       <button className="chip" aria-pressed="false">
         <svg
@@ -320,7 +323,7 @@ const SportsTab = () => {
             </g>
           </g>
         </svg>
-        Kabaddi
+        {getLanguage(LanguageKey.KABADDI)}
       </button>
       <button className="chip" aria-pressed="false">
         <svg
@@ -366,7 +369,7 @@ const SportsTab = () => {
             />
           </g>
         </svg>
-        Basketball
+        {getLanguage(LanguageKey.BASKETBALL)}
       </button>
     </div>
   );

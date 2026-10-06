@@ -7,6 +7,7 @@ import { setShowLoginModal } from "../../../redux/features/global/globalSlice";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useExposure } from "../../../hooks/exposure";
+import MobileBetSlip from "./MobileBetSlip";
 
 const MatchOdds = ({ data }) => {
   const [speedCashOut, setSpeedCashOut] = useState(null);
@@ -259,121 +260,126 @@ const MatchOdds = ({ data }) => {
                   (val) => val?.id === runner?.id,
                 );
                 return (
-                  <div className="runner" key={runner?.id}>
-                    <div>
-                      <span className="nm">{runner?.name}</span>
+                  <Fragment key={runner?.id}>
+                    <div className="runner">
+                      <div>
+                        <span className="nm">{runner?.name}</span>
 
-                      <span className="book" data-book="1|0|Match odds" />
+                        <span className="book" data-book="1|0|Match odds" />
+                      </div>
+                      <button
+                        onClick={() =>
+                          handleBetSlip(
+                            "back",
+                            game,
+                            runner,
+                            runner?.back?.[2]?.price,
+                          )
+                        }
+                        className="o b flash-up"
+                        data-ev={1}
+                        data-ri={0}
+                        data-side="b"
+                        data-d="-0.04"
+                      >
+                        {runner?.back?.[2]?.price}
+                        <small>{runner?.back?.[2]?.size}</small>
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleBetSlip(
+                            "back",
+                            game,
+                            runner,
+                            runner?.back?.[1]?.price,
+                          )
+                        }
+                        className="o b flash-up"
+                        data-ev={1}
+                        data-ri={0}
+                        data-side="b"
+                        data-d="-0.02"
+                      >
+                        {runner?.back?.[1]?.price}
+                        <small>{runner?.back?.[1]?.size}</small>
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleBetSlip(
+                            "back",
+                            game,
+                            runner,
+                            runner?.back?.[0]?.price,
+                          )
+                        }
+                        className="o b main flash-up"
+                        data-ev={1}
+                        data-ri={0}
+                        data-side="b"
+                        data-d={0}
+                      >
+                        {runner?.back?.[0]?.price}
+                        <small> {runner?.back?.[0]?.size}</small>
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleBetSlip(
+                            "lay",
+                            game,
+                            runner,
+                            runner?.lay?.[0]?.price,
+                          )
+                        }
+                        className="o l main flash-up"
+                        data-ev={1}
+                        data-ri={0}
+                        data-side="l"
+                        data-d={0}
+                      >
+                        {runner?.lay?.[0]?.price}
+                        <small> {runner?.lay?.[0]?.size}</small>
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleBetSlip(
+                            "lay",
+                            game,
+                            runner,
+                            runner?.lay?.[1]?.price,
+                          )
+                        }
+                        className="o l flash-up"
+                        data-ev={1}
+                        data-ri={0}
+                        data-side="l"
+                        data-d="0.02"
+                      >
+                        {runner?.lay?.[1]?.price}
+                        <small>{runner?.lay?.[1]?.size}</small>
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleBetSlip(
+                            "lay",
+                            game,
+                            runner,
+                            runner?.lay?.[2]?.price,
+                          )
+                        }
+                        className="o l flash-up"
+                        data-ev={1}
+                        data-ri={0}
+                        data-side="l"
+                        data-d="0.04"
+                      >
+                        {runner?.lay?.[2]?.price}
+                        <small>{runner?.lay?.[2]?.size}</small>
+                      </button>
                     </div>
-                    <button
-                      onClick={() =>
-                        handleBetSlip(
-                          "back",
-                          game,
-                          runner,
-                          runner?.back?.[2]?.price,
-                        )
-                      }
-                      className="o b flash-up"
-                      data-ev={1}
-                      data-ri={0}
-                      data-side="b"
-                      data-d="-0.04"
-                    >
-                      {runner?.back?.[2]?.price}
-                      <small>{runner?.back?.[2]?.size}</small>
-                    </button>
-                    <button
-                      onClick={() =>
-                        handleBetSlip(
-                          "back",
-                          game,
-                          runner,
-                          runner?.back?.[1]?.price,
-                        )
-                      }
-                      className="o b flash-up"
-                      data-ev={1}
-                      data-ri={0}
-                      data-side="b"
-                      data-d="-0.02"
-                    >
-                      {runner?.back?.[1]?.price}
-                      <small>{runner?.back?.[1]?.size}</small>
-                    </button>
-                    <button
-                      onClick={() =>
-                        handleBetSlip(
-                          "back",
-                          game,
-                          runner,
-                          runner?.back?.[0]?.price,
-                        )
-                      }
-                      className="o b main flash-up"
-                      data-ev={1}
-                      data-ri={0}
-                      data-side="b"
-                      data-d={0}
-                    >
-                      {runner?.back?.[0]?.price}
-                      <small> {runner?.back?.[0]?.size}</small>
-                    </button>
-                    <button
-                      onClick={() =>
-                        handleBetSlip(
-                          "lay",
-                          game,
-                          runner,
-                          runner?.lay?.[0]?.price,
-                        )
-                      }
-                      className="o l main flash-up"
-                      data-ev={1}
-                      data-ri={0}
-                      data-side="l"
-                      data-d={0}
-                    >
-                      {runner?.lay?.[0]?.price}
-                      <small> {runner?.lay?.[0]?.size}</small>
-                    </button>
-                    <button
-                      onClick={() =>
-                        handleBetSlip(
-                          "lay",
-                          game,
-                          runner,
-                          runner?.lay?.[1]?.price,
-                        )
-                      }
-                      className="o l flash-up"
-                      data-ev={1}
-                      data-ri={0}
-                      data-side="l"
-                      data-d="0.02"
-                    >
-                      {runner?.lay?.[1]?.price}
-                      <small>{runner?.lay?.[1]?.size}</small>
-                    </button>
-                    <button
-                      onClick={() =>
-                        handleBetSlip(
-                          "lay",
-                          game,
-                          runner,
-                          runner?.lay?.[2]?.price,
-                        )
-                      }
-                      className="o l flash-up"
-                      data-ev={1}
-                      data-ri={0}
-                      data-side="l"
-                      data-d="0.04"
-                    >
-                      {runner?.lay?.[2]?.price}
-                      <small>{runner?.lay?.[2]?.size}</small>
-                    </button>
-                  </div>
+                    {runner?.id === runnerId && (
+                      <MobileBetSlip currentPlaceBetEvent={game} />
+                    )}
+                  </Fragment>
                 );
               })}
             </div>

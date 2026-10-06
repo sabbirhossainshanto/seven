@@ -218,7 +218,7 @@ const Login = () => {
                 id="tabLogin"
                 aria-selected="true"
               >
-                Log in
+                {getLanguage(LanguageKey.LOGIN)}
               </button>
               <button
                 onClick={() => {
@@ -230,7 +230,7 @@ const Login = () => {
                 id="tabSignup"
                 aria-selected="false"
               >
-                Sign up
+                {getLanguage(LanguageKey.REGISTER)}
               </button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} id="amLogin">
@@ -274,7 +274,7 @@ const Login = () => {
                 </div>
               </div>
               <button type="submit" className="btn full" id="loginBtn">
-                Log in
+                {getLanguage(LanguageKey.LOGIN)}
               </button>
               {Settings.demo_login && (
                 <button
@@ -284,7 +284,7 @@ const Login = () => {
                   className="btn full "
                   id="loginBtn"
                 >
-                  Demo
+                  {getLanguage(LanguageKey.DEMO_LOGIN)}
                 </button>
               )}
 

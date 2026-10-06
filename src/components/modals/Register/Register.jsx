@@ -238,7 +238,7 @@ const Register = () => {
                 id="tabLogin"
                 aria-selected="false"
               >
-                Log in
+                {getLanguage(LanguageKey.LOGIN)}
               </button>
               <button
                 type="button"
@@ -246,7 +246,7 @@ const Register = () => {
                 id="tabSignup"
                 aria-selected="true"
               >
-                Sign up
+                {getLanguage(LanguageKey.REGISTER)}
               </button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} id="amLogin">

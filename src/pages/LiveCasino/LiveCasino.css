@@ -1,0 +1,370 @@
+:root {
+  --bg-color-quaternary: #2a2d35;
+  --bg-color-primary: #1a1c22;
+  --bg-quaternary: #23252c;
+  --border-color-primary: #3a3d46;
+  --text-color-primary1: #000;
+  --text-color-primary2: #b5b8c0;
+  --text-tertiary: #ffffff;
+  --color-primary: #0f1115;
+  --bg-active-primary: #ffffff;
+}
+
+.lscf-wrapper {
+  flex: 1 1 0%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* ---------- Header ---------- */
+.lscf-header {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.lscf-header-inner {
+  width: 100%;
+  height: 34px;
+  padding-right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  position: relative;
+}
+
+.lscf-header-bg {
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  gap: 6px;
+}
+
+.lscf-back-btn {
+  width: 28px;
+  border-radius: 4px;
+  height: 24px;
+  display: flex;
+  margin-left: 12px;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-color-quaternary);
+  transition: transform 0.3s ease-in-out;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+}
+
+.lscf-back-btn:active {
+  transform: scale(1.15);
+}
+
+@media (min-width: 640px) {
+  .lscf-back-btn {
+    height: 28px;
+    width: 32px;
+  }
+}
+
+.lscf-title-wrap {
+  width: 100%;
+  height: 100%;
+  text-transform: capitalize;
+  margin-left: 4px;
+  display: flex;
+  align-items: center;
+  color: var(--text-color-primary1);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.lscf-title-inner {
+  display: flex;
+  align-items: center;
+}
+
+.lscf-title-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- Main ---------- */
+.lscf-main {
+  display: flex;
+  align-items: flex-start;
+  height: 100%;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .lscf-main {
+    height: max-content;
+  }
+}
+
+.lscf-main-inner {
+  width: 100%;
+  height: 100%;
+}
+
+@media (min-width: 1024px) {
+  .lscf-main-inner {
+    width: 100%;
+  }
+}
+
+.lscf-search-section {
+  width: 100%;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.lscf-search-relative {
+  position: relative;
+}
+
+.lscf-search-icon {
+  position: absolute;
+  left: 0;
+  padding-left: 8px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.lscf-search-icon svg {
+  height: 20px;
+  width: 20px;
+}
+
+.lscf-search-input-wrap {
+  padding-left: 0.1rem;
+  padding-right: 0.1rem;
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+  height: fit-content;
+}
+
+.lscf-search-input {
+  display: block;
+  width: 100%;
+  outline: none;
+  border-radius: 2px;
+  padding: 8px;
+  padding-left: 32px;
+  font-size: 0.875rem;
+  background-color: var(--bg-quaternary);
+  color: var(--text-tertiary);
+  border: none;
+}
+
+.lscf-search-input:focus {
+  outline: none;
+}
+
+/* ---------- Category tabs ---------- */
+.lscf-categories-scroll {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 6px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.lscf-categories-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.lscf-categories-row {
+  display: flex;
+  gap: 6px;
+  min-width: max-content;
+}
+
+.lscf-category-btn {
+  position: relative;
+  overflow: hidden;
+  padding: 6px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color-primary);
+  border-radius: 9999px;
+  color: var(--text-color-primary2);
+  white-space: nowrap;
+  text-transform: uppercase;
+
+  font-weight: 700;
+  font-size: 0.75rem;
+  background-color: var(--bg-color-primary);
+  cursor: pointer;
+}
+
+.lscf-category-btn.active {
+  background-color: var(--highlight-color);
+  color: var(--color-primary);
+}
+
+/* ---------- Game groups ---------- */
+.lscf-games-outer {
+  width: 100%;
+  padding-bottom: 4px;
+}
+
+@media (min-width: 768px) {
+  .lscf-games-outer {
+    padding-bottom: 0;
+  }
+}
+
+.lscf-games-bg {
+  background-color: transparent;
+  width: 100%;
+  height: max-content;
+  padding-bottom: 4px;
+}
+
+@media (min-width: 768px) {
+  .lscf-games-bg {
+    padding-bottom: 0;
+  }
+}
+
+.lscf-games-padding {
+  width: 100%;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.lscf-games-list {
+  width: 100%;
+  padding-bottom: 16px;
+}
+
+.lscf-category-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.lscf-category-group-header {
+  width: 100%;
+  overflow: hidden;
+}
+
+.lscf-category-group-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.lscf-category-group-title-wrap {
+  max-width: 85%;
+  color: var(--text-color-primary1);
+  font-weight: 600;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.lscf-category-group-title-inner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.lscf-category-group-title {
+  color: var(--highlight-color);
+}
+
+@media (min-width: 768px) {
+  .lscf-category-group-title {
+    font-size: 1rem;
+  }
+}
+
+.lscf-game-scroll {
+  padding-top: 0;
+  width: 100%;
+  height: max-content;
+  overflow-x: auto;
+  display: flex;
+  gap: 4px;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.lscf-game-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.lscf-game-item {
+  width: max-content;
+  height: max-content;
+  cursor: pointer;
+}
+
+.lscf-game-thumb {
+  position: relative;
+  overflow: hidden;
+  min-width: 117px;
+  width: 117px;
+  aspect-ratio: 0.75;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+@media (min-width: 640px) {
+  .lscf-game-thumb {
+    min-width: 140px;
+    width: 140px;
+  }
+}
+
+@media (min-width: 768px) {
+  .lscf-game-thumb {
+    min-width: 160px;
+    width: 160px;
+  }
+}
+
+.lscf-game-thumb img {
+  transition: transform 0.5s ease-in-out;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.lscf-game-thumb img:hover {
+  transform: scale(1.05);
+}
+
+.lscf-game-thumb img:active {
+  transform: scale(1.05);
+}
