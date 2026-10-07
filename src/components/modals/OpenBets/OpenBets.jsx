@@ -190,10 +190,10 @@ const OpenBets = ({ setShowOpenBets }) => {
                                             y2="91.5"
                                             gradientUnits="userSpaceOnUse"
                                           >
-                                            <stop stopColor="var(--secondary-color)" />
+                                            <stop stopColor="var(--primary-color)" />
                                             <stop
                                               offset={1}
-                                              stopColor="var(--secondary-color)"
+                                              stopColor="var(--primary-color)"
                                             />
                                           </linearGradient>
                                         </svg>

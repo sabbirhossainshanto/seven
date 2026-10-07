@@ -9,6 +9,8 @@ import {
 } from "../../../redux/features/events/eventSlice";
 import { setShowLoginModal } from "../../../redux/features/global/globalSlice";
 import MobileBetSlip from "./MobileBetSlip";
+import images from "../../../assets/images";
+import Ladder from "../../modals/Ladder/Ladder";
 
 const Fancy = ({ data }) => {
   const fancyData = data?.filter(
@@ -17,7 +19,7 @@ const Fancy = ({ data }) => {
       fancy.tabGroupName === "Normal" &&
       fancy?.visible == true,
   );
-  const [marketName, setMarketName] = useState("");
+
   const [ladderData, setLadderData] = useState([]);
   const { eventId } = useParams();
 
@@ -115,11 +117,11 @@ const Fancy = ({ data }) => {
     pnlBySelection = Object?.values(obj);
   }
 
-  const handleGetLadder = async (pnl, marketName) => {
+  const handleGetLadder = async (pnl) => {
     if (!pnl?.MarketId) {
       return;
     }
-    setMarketName(marketName);
+
     const res = await getLadder({ marketId: pnl?.MarketId }).unwrap();
 
     if (res.success) {
@@ -128,11 +130,13 @@ const Fancy = ({ data }) => {
   };
   return (
     <Fragment>
+      {ladderData?.length > 0 && (
+        <Ladder ladderData={ladderData} setLadderData={setLadderData} />
+      )}
       {fancyData?.length > 0 && (
         <div className="market fancy" id="mk-fancy">
           <div className="mk-head">
             <h3>Fancy</h3>
-            <span className="lim">Min 100 · Max 50,000</span>
           </div>
           <div
             className="mk-cols"
@@ -154,7 +158,27 @@ const Fancy = ({ data }) => {
                   <div>
                     <span className="nm"> {game?.name}</span>
 
-                    <span className="book" data-fbook="1|0" />
+                    <span className="book" data-fbook="1|0">
+                      {pnl && (
+                        <span
+                          className={`${
+                            pnl?.pnl > 0 ? "text-success" : "text-danger"
+                          }`}
+                        >
+                          {pnl?.pnl}
+                        </span>
+                      )}
+
+                      {pnl?.pnl && (
+                        <div
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleGetLadder(pnl)}
+                          className="sucess-simbal"
+                        >
+                          <img src={images.ladder} alt="" />
+                        </div>
+                      )}
+                    </span>
                   </div>
                   <button
                     onClick={() =>

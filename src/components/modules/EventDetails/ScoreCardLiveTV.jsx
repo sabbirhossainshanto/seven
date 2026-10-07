@@ -1,9 +1,37 @@
-const ScoreCardLiveTV = () => {
+import { useState } from "react";
+import Score from "./Score";
+import TennisScore from "./TennisScore";
+import { useVideoMutation } from "../../../redux/features/events/events";
+import { useParams } from "react-router-dom";
+import { Settings } from "../../../api";
+
+const ScoreCardLiveTV = ({ data }) => {
+  const { eventTypeId, eventId } = useParams();
+  const [sportsVideo, { data: iframe }] = useVideoMutation();
+  const [isOpen, setIsOpen] = useState(false);
+  const [tab, setTab] = useState(1);
+
+  const handleGetVideo = async () => {
+    const payload = {
+      eventTypeId: eventTypeId,
+      eventId: eventId,
+      type: "video",
+      casinoCurrency: Settings.casino_currency,
+    };
+    await sportsVideo(payload).unwrap();
+  };
+
+  console.log(iframe);
+
   return (
-    <section className="mc">
+    <section className={`mc  ${isOpen ? "open" : ""}`}>
       <div className="mc-bar">
         <div className="mc-tabs" role="tablist">
-          <button role="tab" aria-selected="false">
+          <button
+            onClick={() => setTab(1)}
+            role="tab"
+            aria-selected={tab === 1}
+          >
             <svg
               viewBox="0 0 20 20"
               fill="none"
@@ -15,21 +43,50 @@ const ScoreCardLiveTV = () => {
             </svg>
             Scorecard
           </button>
-          <button role="tab" aria-selected="false">
-            <svg
-              viewBox="0 0 20 20"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
+          {data?.score?.hasVideo && (
+            <button
+              onClick={() => {
+                setTab(2);
+                handleGetVideo();
+              }}
+              role="tab"
+              aria-selected={tab === 2}
             >
-              <rect x={2} y="4.5" width={16} height={11} rx="1.5" />
-              <path d="M7 1.5l3 3 3-3" />
-            </svg>
-            Live TV
-            <i className="mc-live" />
-          </button>
+              <svg
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              >
+                <rect x={2} y="4.5" width={16} height={11} rx="1.5" />
+                <path d="M7 1.5l3 3 3-3" />
+              </svg>
+              Live TV
+              <i className="mc-live" />
+            </button>
+          )}
+          {data?.score?.tracker && (
+            <button
+              onClick={() => setTab(3)}
+              role="tab"
+              aria-selected={tab === 3}
+            >
+              <svg
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              >
+                <rect x={2} y="4.5" width={16} height={11} rx="1.5" />
+                <path d="M7 1.5l3 3 3-3" />
+              </svg>
+              Tracker
+              <i className="mc-live" />
+            </button>
+          )}
         </div>
         <button
+          onClick={() => setIsOpen(!isOpen)}
           className="mc-toggle"
           aria-expanded="false"
           aria-label="Expand scorecard and TV"
@@ -47,115 +104,65 @@ const ScoreCardLiveTV = () => {
         </button>
       </div>
       <button className="mc-sum">
-        <i className="mc-live" />
-        <span>
-          <b>SIX</b> <strong>142/5</strong> <b>SCO</b> · 2nd inn · 12.3 ov ·
-          Need 61 off 46 balls
-        </span>
+        {/* {data?.score?.hasVideo && <i className="mc-live" />} */}
+        {/* {data?.iscore && eventTypeId == 4 && (
+          <span>
+            <b>SIX</b> <strong>142/5</strong> <b>SCO</b> · 2nd inn · 12.3 ov ·
+            Need 61 off 46 balls
+          </span>
+        )} */}
       </button>
-      <div className="mc-wrap">
-        <div className="mc-body">
-          <div className="sc">
-            <div className="sc-teams">
-              <div className="sc-row now">
-                <span className="bat" title="Batting" />
-                <b>Sydney Sixers</b>
-                <strong>142/5</strong>
-                <small>12.3 ov</small>
+      {tab === 1 && eventTypeId == 4 && data?.iscore && (
+        <Score iscore={data?.iscore} />
+      )}
+
+      {tab === 1 && eventTypeId == 2 && data?.score && (
+        <TennisScore eventTypeId={eventTypeId} score={data?.score} />
+      )}
+
+      {data?.score?.tracker && tab === 3 && (
+        <div
+          style={{
+            width: "100%",
+            height: "125px",
+            overflow: "hidden",
+          }}
+        >
+          {" "}
+          <iframe
+            style={{
+              width: "100%",
+            }}
+            className="premium-iframe"
+            src={data?.score?.tracker}
+          ></iframe>
+        </div>
+      )}
+
+      {iframe?.result?.url && data?.score?.hasVideo && tab === 2 && (
+        <div className="mc-wrap">
+          <div className="mc-body">
+            <div className="tv " id="tv">
+              <div
+                style={{
+                  marginTop: "10px",
+                  width: "100%",
+
+                  overflow: "hidden",
+                  padding: "0px 8px",
+                }}
+                className="embed-responsive embed-responsive-16by9 ng-star-inserted"
+              >
+                <iframe
+                  id="tvStr"
+                  className="embed-responsive-item w-100"
+                  src={iframe?.result?.url}
+                ></iframe>
               </div>
-              <div className="sc-row">
-                <span />
-                <b>Perth Scorchers</b>
-                <strong>202/6</strong>
-                <small>20.0 ov</small>
-              </div>
-            </div>
-            <div className="sc-chase">
-              Need 61 off 46 balls
-              <span>
-                CRR <b>11.36</b>
-              </span>
-              <span>
-                RRR <b>7.96</b>
-              </span>
-              <span>
-                Target <b>203</b>
-              </span>
-            </div>
-            <div className="sc-tbl">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Batter</th>
-                    <th>R</th>
-                    <th>B</th>
-                    <th>4s</th>
-                    <th>6s</th>
-                    <th>SR</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      J. Philippe <i className="strike">*</i>
-                    </td>
-                    <td>
-                      <b>48</b>
-                    </td>
-                    <td>31</td>
-                    <td>5</td>
-                    <td>2</td>
-                    <td>154.8</td>
-                  </tr>
-                  <tr>
-                    <td>M. Henriques</td>
-                    <td>
-                      <b>22</b>
-                    </td>
-                    <td>14</td>
-                    <td>2</td>
-                    <td>1</td>
-                    <td>157.1</td>
-                  </tr>
-                </tbody>
-              </table>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Bowler</th>
-                    <th>O</th>
-                    <th>M</th>
-                    <th>R</th>
-                    <th>W</th>
-                    <th>Econ</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>J. Richardson</td>
-                    <td>2.3</td>
-                    <td>0</td>
-                    <td>24</td>
-                    <td>
-                      <b>1</b>
-                    </td>
-                    <td>10.43</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div className="sc-over">
-              <small>This over</small>
-              <i className="ball b-1">1</i>
-              <i className="ball b-4">4</i>
-              <i className="ball b-dot">•</i>
-              <i className="ball b-W">W</i>
-              <i className="ball b-6">6</i>
-              <i className="ball b-2">2</i>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </section>
   );
 };

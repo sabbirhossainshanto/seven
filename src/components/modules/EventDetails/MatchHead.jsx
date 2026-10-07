@@ -2,7 +2,7 @@ const MatchHead = ({ data }) => {
   const result = data?.result?.[0];
   return (
     <div className="match-head">
-      <div className="crumb">
+      {/* <div className="crumb">
         <svg
           className="si si-cricket"
           style={{ "--t": "-0.937s" }}
@@ -42,7 +42,7 @@ const MatchHead = ({ data }) => {
         <button>Cricket</button>
         <span>›</span>
         <span>{result?.competitionName}</span>
-      </div>
+      </div> */}
       <h1>{result?.eventName}</h1>
       <div className="sub">
         <span style={{ color: "var(--win)", fontWeight: 600 }}>

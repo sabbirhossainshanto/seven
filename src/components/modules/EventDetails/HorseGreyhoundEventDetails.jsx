@@ -3,26 +3,27 @@ import {
   setPlaceBetValues,
   setRunnerId,
 } from "../../../redux/features/events/eventSlice";
-import { setShowLoginModal } from "../../../redux/features/global/globalSlice";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useExposure } from "../../../hooks/exposure";
 import MobileBetSlip from "./MobileBetSlip";
-import SpeedCashOut from "../../modals/SpeedCashOut/SpeedCashOut";
-import useLanguage from "../../../hooks/use-language";
 import { LanguageKey } from "../../../const";
-import { handleCashOutPlaceBet } from "../../../utils/handleCashoutPlaceBet";
-import { Settings } from "../../../api";
+import toast from "react-hot-toast";
+import useLanguage from "../../../hooks/use-language";
 
-const MatchOdds = ({ data }) => {
+const HorseGreyhoundEventDetails = ({ data }) => {
   const { getLanguage } = useLanguage();
-  const [speedCashOut, setSpeedCashOut] = useState(null);
+  const { runnerId } = useSelector((state) => state.event);
   const { eventId } = useParams();
-  const [teamProfit, setTeamProfit] = useState([]);
-  const dispatch = useDispatch();
-  const { runnerId, stake, predictOdd } = useSelector((state) => state.event);
-  const { token } = useSelector((state) => state.auth);
   const { data: exposure } = useExposure(eventId);
+  const { token } = useSelector((state) => state?.auth);
+  const dispatch = useDispatch();
+  const [timeDiff, setTimeDiff] = useState({
+    day: 0,
+    hour: 0,
+    minute: 0,
+    second: 0,
+  });
 
   const handleBetSlip = (betType, games, runner, price) => {
     if (token) {
@@ -99,208 +100,109 @@ const MatchOdds = ({ data }) => {
 
       dispatch(setPlaceBetValues(betData));
     } else {
-      dispatch(setShowLoginModal(true));
+      toast.error("Please login to place a bet.");
     }
   };
 
-  const computeExposureAndStake = (
-    exposureA,
-    exposureB,
-    runner1,
-    runner2,
-    gameId,
-  ) => {
-    let runner,
-      largerExposure,
-      layValue,
-      oppositeLayValue,
-      lowerExposure,
-      speedCashOut;
-
-    const pnlArr = [exposureA, exposureB];
-    const isOnePositiveExposure = onlyOnePositive(pnlArr);
-
-    if (exposureA > exposureB) {
-      // Team A has a larger exposure.
-      runner = runner1;
-      largerExposure = exposureA;
-      layValue = runner1?.lay?.[0]?.price;
-      oppositeLayValue = runner2?.lay?.[0]?.price;
-      lowerExposure = exposureB;
-    } else {
-      // Team B has a larger exposure.
-      runner = runner2;
-      largerExposure = exposureB;
-      layValue = runner2?.lay?.[0]?.price;
-      oppositeLayValue = runner1?.lay?.[0]?.price;
-      lowerExposure = exposureA;
-    }
-    if (exposureA > 0 && exposureB > 0) {
-      const difference = Math.abs(exposureA - exposureB);
-      if (difference <= 10) {
-        speedCashOut = true;
-      }
-    }
-    // Compute the absolute value of the lower exposure.
-    let absLowerExposure = Math.abs(lowerExposure);
-
-    // Compute the liability for the team with the initially larger exposure.
-    let liability = absLowerExposure * (layValue - 1);
-
-    // Compute the new exposure of the team with the initially larger exposure.
-    let newExposure = largerExposure - liability;
-
-    // Compute the profit using the new exposure and the lay odds of the opposite team.
-    let profit = newExposure / layValue;
-
-    // Calculate the new stake value for the opposite team by adding profit to the absolute value of its exposure.
-    let newStakeValue = absLowerExposure + profit;
-
-    // Return the results.
-    return {
-      runner,
-      newExposure,
-      profit,
-      newStakeValue,
-      oppositeLayValue,
-      gameId,
-      isOnePositiveExposure,
-      exposureA,
-      exposureB,
-      runner1,
-      runner2,
-      speedCashOut,
-    };
-  };
-  function onlyOnePositive(arr) {
-    let positiveCount = arr?.filter((num) => num > 0).length;
-    return positiveCount === 1;
-  }
   useEffect(() => {
-    let results = [];
-    if (
-      data?.length > 0 &&
-      exposure?.pnlBySelection &&
-      Object.keys(exposure?.pnlBySelection)?.length > 0
-    ) {
-      data.forEach((game) => {
-        const runners = game?.runners || [];
-        if (runners?.length === 2) {
-          const runner1 = runners[0];
-          const runner2 = runners[1];
-          const pnl1 = pnlBySelection?.find(
-            (pnl) => pnl?.RunnerId === runner1?.id,
-          )?.pnl;
-          const pnl2 = pnlBySelection?.find(
-            (pnl) => pnl?.RunnerId === runner2?.id,
-          )?.pnl;
+    if (!data?.[0]?.openDate) return;
 
-          if (pnl1 && pnl2 && runner1 && runner2) {
-            const result = computeExposureAndStake(
-              pnl1,
-              pnl2,
-              runner1,
-              runner2,
-              game?.id,
-            );
-            results.push(result);
-          }
+    const targetDateStr = data[0].openDate;
+    const [date, time] = targetDateStr.split(" ");
+    const [day, month, year] = date.split("/");
+    const [hour, minute, second] = time.split(":");
+
+    const targetDate = new Date(year, month - 1, day, hour, minute, second);
+
+    const initialTimeout = setTimeout(() => {
+      const interval = setInterval(() => {
+        const currentDate = new Date();
+        const diffInMs = targetDate - currentDate;
+
+        if (diffInMs <= 0) {
+          clearInterval(interval);
+          setTimeDiff({ day: 0, hour: 0, minute: 0, second: 0 });
+          return;
         }
-      });
-      setTeamProfit(results);
-    } else {
-      setTeamProfit([]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [eventId, data]);
 
-  let pnlBySelection;
-  if (exposure?.pnlBySelection) {
-    const obj = exposure?.pnlBySelection;
-    pnlBySelection = Object?.values(obj);
-  }
+        const day = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+        const hour = Math.floor(
+          (diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+        );
+        const minute = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
+        const second = Math.floor((diffInMs % (1000 * 60)) / 1000);
+
+        setTimeDiff({ day, hour, minute, second });
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }, 1000);
+
+    return () => clearTimeout(initialTimeout);
+  }, []);
 
   return (
     <Fragment>
-      {speedCashOut && (
-        <SpeedCashOut
-          speedCashOut={speedCashOut}
-          setSpeedCashOut={setSpeedCashOut}
+      <div className="horse-banner">
+        <img
+          style={{ width: "100%" }}
+          src="https://g1ver.sprintstaticdata.com/v42/static/front/img/10.png"
+          className="img-fluid"
         />
-      )}
+        <div className="horse-banner-detail">
+          <div className="text-success">{getLanguage(LanguageKey.OPEN)}</div>
+          {timeDiff?.day ||
+          timeDiff?.hour ||
+          timeDiff?.minute ||
+          timeDiff?.second ? (
+            <div className="horse-timer">
+              <span style={{ display: "flex", gap: "5px" }}>
+                {timeDiff?.day > 0 && (
+                  <span>
+                    {timeDiff?.day}{" "}
+                    <small>{getLanguage(LanguageKey.DAY)}</small>
+                  </span>
+                )}
+                {timeDiff?.hour > 0 && (
+                  <span>
+                    {timeDiff?.hour}{" "}
+                    <small>{getLanguage(LanguageKey.HOUR)}</small>
+                  </span>
+                )}
+                {timeDiff?.minute > 0 && (
+                  <span>
+                    {timeDiff?.minute}{" "}
+                    <small>{getLanguage(LanguageKey.MINUTE)}</small>
+                  </span>
+                )}
+                {timeDiff?.hour === 0 && timeDiff?.minute < 60 && (
+                  <span>
+                    {timeDiff?.second}{" "}
+                    <small>{getLanguage(LanguageKey.SECOND)}</small>
+                  </span>
+                )}
+              </span>
+              <span>{getLanguage(LanguageKey.REMAINING)}</span>
+            </div>
+          ) : null}
+
+          <div className="time-detail">
+            <p>{data?.[0]?.eventName}</p>
+            <h5>
+              <span>{data?.[0]?.openDate}</span>
+              <span>| {data?.[0]?.raceType}</span>
+            </h5>
+          </div>
+        </div>
+      </div>
       {data?.length > 0 &&
         data?.map((game) => {
-          const teamProfitForGame = teamProfit?.find(
-            (profit) =>
-              profit?.gameId === game?.id && profit?.isOnePositiveExposure,
-          );
-          const speedCashOut = teamProfit?.find(
-            (profit) => profit?.gameId === game?.id && profit?.speedCashOut,
-          );
           return (
             <div key={game?.id} className="market" id="mk-mo">
               <div className="mk-head">
                 <h3>{game?.name?.toUpperCase()}</h3>
-                <span
-                  className="matched"
-                  style={{ display: "flex", gap: "10px" }}
-                >
-                  {" "}
-                  {Settings.cashout &&
-                    game?.runners?.length !== 3 &&
-                    game?.status === "OPEN" &&
-                    !speedCashOut && (
-                      <button
-                        onClick={() =>
-                          handleCashOutPlaceBet(
-                            game,
-                            "lay",
-                            dispatch,
-                            pnlBySelection,
-                            token,
-                            teamProfitForGame,
-                          )
-                        }
-                        style={{
-                          cursor: `${
-                            !teamProfitForGame ? "not-allowed" : "pointer"
-                          }`,
-                          opacity: `${!teamProfitForGame ? "0.6" : "1"}`,
-                          padding: "0px",
-                        }}
-                        className="btn login-btn"
-                        id="loginBtn"
-                      >
-                        {getLanguage(LanguageKey.CASHOUT)}{" "}
-                        {teamProfitForGame?.profit &&
-                          `(${teamProfitForGame.profit.toFixed(0)})`}
-                      </button>
-                    )}
-                  {Settings.cashout &&
-                    game?.runners?.length !== 3 &&
-                    game?.status === "OPEN" &&
-                    game?.name !== "toss" &&
-                    speedCashOut && (
-                      <button
-                        onClick={() =>
-                          handleCashOutPlaceBet(
-                            game,
-                            "lay",
-                            dispatch,
-                            pnlBySelection,
-                            token,
-                            teamProfitForGame,
-                          )
-                        }
-                        style={{
-                          padding: "0px",
-                        }}
-                        className="btn login-btn"
-                        id="loginBtn"
-                      >
-                        {getLanguage(LanguageKey.SPEED_CASHOUT)}
-                      </button>
-                    )}
+                <span className="matched">
+                  Matched <b data-matched={1}>966K</b>
                 </span>
                 <span className="lim">
                   Min {game?.minLiabilityPerBet} · Max{" "}
@@ -326,40 +228,42 @@ const MatchOdds = ({ data }) => {
                 </span>
               </div>
               {game?.runners?.map((runner) => {
-                const pnl = pnlBySelection?.find(
-                  (pnl) => pnl?.RunnerId === runner?.id,
-                );
-                const predictOddValues = predictOdd?.find(
-                  (val) => val?.id === runner?.id,
-                );
                 return (
                   <Fragment key={runner?.id}>
                     <div className="runner">
                       <div>
-                        <span className="nm">{runner?.name}</span>
+                        <span className="nm">{runner?.horse_name}</span>
 
                         <span className="book" data-book="1|0|Match odds">
-                          {pnl && (
-                            <span
-                              className={`${
-                                pnl?.pnl > 0 ? "text-success" : "text-danger"
-                              }`}
-                            >
-                              {pnl?.pnl}
-                            </span>
-                          )}
-
-                          {stake && runnerId && predictOddValues && (
-                            <span
-                              className={` ${
-                                predictOddValues?.exposure > 0
-                                  ? "text-success"
-                                  : "text-danger"
-                              } `}
-                            >
-                              &nbsp;({predictOddValues?.exposure})
-                            </span>
-                          )}
+                          <div
+                            className="jockey-detail sm-d-none d-md-flex"
+                            style={{ display: "flex" }}
+                          >
+                            {runner?.jocky && (
+                              <span className="jockey-detail-box">
+                                <b>Jockey:</b>
+                                <span style={{ fontWeight: "normal" }}>
+                                  {runner?.jocky}
+                                </span>
+                              </span>
+                            )}
+                            {runner?.trainer && (
+                              <span className="jockey-detail-box">
+                                <b>Trainer:</b>
+                                <span style={{ fontWeight: "normal" }}>
+                                  {runner?.trainer}
+                                </span>
+                              </span>
+                            )}
+                            {runner?.age && (
+                              <span className="jockey-detail-box">
+                                <b>Age:</b>
+                                <span style={{ fontWeight: "normal" }}>
+                                  {runner?.age}
+                                </span>
+                              </span>
+                            )}
+                          </div>
                         </span>
                       </div>
                       <button
@@ -484,4 +388,4 @@ const MatchOdds = ({ data }) => {
   );
 };
 
-export default MatchOdds;
+export default HorseGreyhoundEventDetails;

@@ -2,11 +2,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { setGroup } from "../../../redux/features/global/globalSlice";
 import useLanguage from "../../../hooks/use-language";
 import { LanguageKey } from "../../../const";
+import { eventNameList } from "../../../static/event-name-list";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LeftSidebar = () => {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const { getLanguage } = useLanguage();
   const dispatch = useDispatch();
   const { group } = useSelector((state) => state.global);
+
+  const handleClick = (group) => {
+    dispatch(setGroup(group));
+    navigate("/");
+  };
+
+  const isActive = (g) => g === group && pathname === "/";
 
   return (
     <aside className="left">
@@ -14,9 +25,9 @@ const LeftSidebar = () => {
         <h4>{getLanguage(LanguageKey.SPORTS)}</h4>
         <div id="sportlist">
           <button
-            onClick={() => dispatch(setGroup(0))}
+            onClick={() => handleClick(0)}
             className="sp"
-            aria-current={group === 0 ? "true" : "false"}
+            aria-current={isActive(0)}
           >
             <svg
               className="si si-all"
@@ -59,7 +70,7 @@ const LeftSidebar = () => {
             </span>
           </button>
           <button
-            onClick={() => dispatch(setGroup(4))}
+            onClick={() => handleClick(4)}
             className="sp"
             aria-current={group === 4 ? "true" : "false"}
           >
@@ -102,9 +113,9 @@ const LeftSidebar = () => {
             <span className="sp-name">{getLanguage(LanguageKey.CRICKET)}</span>
           </button>
           <button
-            onClick={() => dispatch(setGroup(1))}
+            onClick={() => handleClick(1)}
             className="sp"
-            aria-current={group === 1 ? "true" : "false"}
+            aria-current={isActive(1)}
           >
             <svg
               className="si si-football"
@@ -152,9 +163,9 @@ const LeftSidebar = () => {
             <span className="sp-name">{getLanguage(LanguageKey.FOOTBALL)}</span>
           </button>
           <button
-            onClick={() => dispatch(setGroup(2))}
+            onClick={() => handleClick(2)}
             className="sp"
-            aria-current={group === 2 ? "true" : "false"}
+            aria-current={isActive(2)}
           >
             <svg
               className="si si-tennis"
@@ -203,8 +214,11 @@ const LeftSidebar = () => {
             </svg>
             <span className="sp-name">{getLanguage(LanguageKey.TENNIS)}</span>
           </button>
-
-          <button className="sp" aria-current="false">
+          <button
+            onClick={() => handleClick(7)}
+            className="sp"
+            aria-current={isActive(7)}
+          >
             <svg
               className="si si-horse"
               style={{ "--t": "-0.363s" }}
@@ -309,7 +323,11 @@ const LeftSidebar = () => {
             </svg>
             <span className="sp-name">Horse racing</span>
           </button>
-          <button className="sp" aria-current="false">
+          <button
+            onClick={() => handleClick(4339)}
+            className="sp"
+            aria-current={isActive(4339)}
+          >
             <svg
               className="si si-kabaddi"
               style={{ "--t": "-0.363s" }}
@@ -343,52 +361,26 @@ const LeftSidebar = () => {
             </svg>
             <span className="sp-name">Kabaddi</span>
           </button>
-          <button className="sp" aria-current="false">
-            <svg
-              className="si si-basketball"
-              style={{ "--t": "-0.363s" }}
-              viewBox="0 0 32 32"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <rect x={8} y={2} width={16} height={8} rx={1} opacity=".55" />
-              <rect
-                x={13}
-                y={5}
-                width={6}
-                height={4}
-                strokeWidth={1}
-                opacity=".55"
-              />
-              <path d="M3 29.2H29" opacity=".35" />
-              <g className="a-hoop">
-                <circle
-                  cx={16}
-                  cy={8}
-                  r="3.3"
-                  fill="currentColor"
-                  fillOpacity=".2"
+
+          {eventNameList.map((item) => {
+            return (
+              <button
+                key={item.id}
+                onClick={() => handleClick(item.id)}
+                className="sp"
+                aria-current={isActive(item.id)}
+              >
+                <img
+                  style={{ filter: "none", height: "18px", width: "18px" }}
+                  data-v-5e69ccab
+                  src={item.image}
+                  alt=""
+                  loading="lazy"
                 />
-                <path
-                  d="M12.7 8h6.6M16 4.7v6.6M13.6 5.7q2.4 2.3 0 4.6M18.4 5.7q-2.4 2.3 0 4.6"
-                  strokeWidth={1}
-                />
-              </g>
-              <path d="M10.3 12h11.4" strokeWidth="1.9" />
-              <g className="a-net">
-                <path
-                  d="M10.8 12.3l1.8 6.2M21.2 12.3l-1.8 6.2M13.4 12.3l1 6.2M18.6 12.3l-1 6.2M11.9 15.6h8.2M12.6 18.5h6.8"
-                  strokeWidth={1}
-                  opacity=".8"
-                />
-              </g>
-            </svg>
-            <span className="sp-name">Basketball</span>
-          </button>
+                {getLanguage(item.name)}
+              </button>
+            );
+          })}
         </div>
       </div>
     </aside>

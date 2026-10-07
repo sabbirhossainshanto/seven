@@ -198,7 +198,11 @@ const SportsTab = () => {
         {getLanguage(LanguageKey.TENNIS)}
       </button>
 
-      <button className="chip" aria-pressed="false">
+      <button
+        onClick={() => dispatch(setGroup(7))}
+        className="chip"
+        aria-pressed={group === 7 ? "true" : "false"}
+      >
         <svg
           className="si si-horse"
           style={{ "--t": "-0.366s" }}
@@ -291,7 +295,11 @@ const SportsTab = () => {
         </svg>
         {getLanguage(LanguageKey.HORSE)}
       </button>
-      <button className="chip" aria-pressed="false">
+      <button
+        onClick={() => dispatch(setGroup(4339))}
+        className="chip"
+        aria-pressed={group === 4339 ? "true" : "false"}
+      >
         <svg
           className="si si-kabaddi"
           style={{ "--t": "-0.366s" }}
@@ -324,52 +332,6 @@ const SportsTab = () => {
           </g>
         </svg>
         {getLanguage(LanguageKey.KABADDI)}
-      </button>
-      <button className="chip" aria-pressed="false">
-        <svg
-          className="si si-basketball"
-          style={{ "--t": "-0.366s" }}
-          viewBox="0 0 32 32"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <rect x={8} y={2} width={16} height={8} rx={1} opacity=".55" />
-          <rect
-            x={13}
-            y={5}
-            width={6}
-            height={4}
-            strokeWidth={1}
-            opacity=".55"
-          />
-          <path d="M3 29.2H29" opacity=".35" />
-          <g className="a-hoop">
-            <circle
-              cx={16}
-              cy={8}
-              r="3.3"
-              fill="currentColor"
-              fillOpacity=".2"
-            />
-            <path
-              d="M12.7 8h6.6M16 4.7v6.6M13.6 5.7q2.4 2.3 0 4.6M18.4 5.7q-2.4 2.3 0 4.6"
-              strokeWidth={1}
-            />
-          </g>
-          <path d="M10.3 12h11.4" strokeWidth="1.9" />
-          <g className="a-net">
-            <path
-              d="M10.8 12.3l1.8 6.2M21.2 12.3l-1.8 6.2M13.4 12.3l1 6.2M18.6 12.3l-1 6.2M11.9 15.6h8.2M12.6 18.5h6.8"
-              strokeWidth={1}
-              opacity=".8"
-            />
-          </g>
-        </svg>
-        {getLanguage(LanguageKey.BASKETBALL)}
       </button>
     </div>
   );

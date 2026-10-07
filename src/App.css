@@ -6,12 +6,12 @@
 }
 .primary-icon-color svg,
 .back-from-iframe svg {
-  stroke: var(--primary-gradient);
+  stroke: var(--primary-color);
 }
 
 .change-password svg,
 .primary-icons svg {
-  fill: var(--primary-gradient);
+  fill: var(--primary-color);
 }
 
 .text-secondary {
@@ -489,7 +489,7 @@ input:-moz-autofill {
 }
 
 .dropdownBG {
-  background-color: var(--primary-gradient) !important;
+  background-color: var(--primary-color) !important;
 }
 
 .swal2-container:has(.alert-dialog) {
@@ -642,7 +642,7 @@ div:where(.swal2-container) div:where(.swal2-actions) {
 /* App pop up */
 .android-popup {
   width: 100%;
-  background: var(--primary-gradient);
+  background: var(--primary-color);
   padding: 5px;
   display: flex;
   align-items: center;
@@ -921,7 +921,7 @@ div:where(.swal2-container) div:where(.swal2-actions) {
   width: 30px;
   height: 45px;
   top: 0;
-  background-color: var(--primary-gradient);
+  background-color: var(--primary-color);
 }
 
 button.btn {
@@ -1237,7 +1237,7 @@ html * {
   }
   .sc_cw-overs-info-mobile {
     display: flex !important;
-    border-top: 0.5px solid var(--primary-gradient) !important;
+    border-top: 0.5px solid var(--primary-color) !important;
     padding-top: 2px !important;
     padding-bottom: 2px !important;
     color: #fff !important;

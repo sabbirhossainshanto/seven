@@ -1,17 +1,32 @@
 import { Fragment, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { setShowLeftDrawer } from "../../../redux/features/global/globalSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setGroup,
+  setShowLeftDrawer,
+} from "../../../redux/features/global/globalSlice";
 import useCloseModalClickOutside from "../../../hooks/closeModal";
 import Language from "./Language";
 import useLanguage from "../../../hooks/use-language";
 import { LanguageKey } from "../../../const";
+import { eventNameList } from "../../../static/event-name-list";
+import { useNavigate } from "react-router-dom";
 
 const LeftDrawer = () => {
+  const navigate = useNavigate();
   const { getLanguage } = useLanguage();
   const ref = useRef();
   const dispatch = useDispatch();
+  const { group } = useSelector((state) => state.global);
 
   useCloseModalClickOutside(ref, () => dispatch(setShowLeftDrawer(false)));
+
+  const handleClick = (group) => {
+    dispatch(setGroup(group));
+    dispatch(setShowLeftDrawer(false));
+    navigate("/");
+  };
+
+  const isActive = (g) => g === group;
   return (
     <Fragment>
       <div className="drawer-bg open" id="drawerBg"></div>
@@ -44,7 +59,11 @@ const LeftDrawer = () => {
         </div>
 
         <nav className="dr-list" aria-label="Sports">
-          <button className="dr-sp" aria-current="true">
+          <button
+            onClick={() => handleClick(0)}
+            className="dr-sp"
+            aria-current={isActive(0)}
+          >
             <svg
               className="si si-all"
               style={{ "--t": "-8.972s" }}
@@ -83,7 +102,11 @@ const LeftDrawer = () => {
             </svg>
             <span className="dr-nm">{getLanguage(LanguageKey.ALL_SPORTS)}</span>
           </button>
-          <button className="dr-sp" aria-current="false">
+          <button
+            onClick={() => handleClick(4)}
+            className="dr-sp"
+            aria-current={isActive(4)}
+          >
             <svg
               className="si si-cricket"
               style={{ "--t": "-8.972s" }}
@@ -122,7 +145,11 @@ const LeftDrawer = () => {
             </svg>
             <span className="dr-nm">{getLanguage(LanguageKey.CRICKET)}</span>
           </button>
-          <button className="dr-sp" aria-current="false">
+          <button
+            onClick={() => handleClick(1)}
+            className="dr-sp"
+            aria-current={isActive(1)}
+          >
             <svg
               className="si si-football"
               style={{ "--t": "-8.972s" }}
@@ -168,7 +195,11 @@ const LeftDrawer = () => {
             </svg>
             <span className="dr-nm">{getLanguage(LanguageKey.FOOTBALL)}</span>
           </button>
-          <button className="dr-sp" aria-current="false">
+          <button
+            onClick={() => handleClick(2)}
+            className="dr-sp"
+            aria-current={isActive(2)}
+          >
             <svg
               className="si si-tennis"
               style={{ "--t": "-8.972s" }}
@@ -216,53 +247,12 @@ const LeftDrawer = () => {
             </svg>
             <span className="dr-nm">{getLanguage(LanguageKey.TENNIS)}</span>
           </button>
-          <button className="dr-sp" aria-current="false">
-            <svg
-              className="si si-basketball"
-              style={{ "--t": "-8.972s" }}
-              viewBox="0 0 32 32"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <rect x={8} y={2} width={16} height={8} rx={1} opacity=".55" />
-              <rect
-                x={13}
-                y={5}
-                width={6}
-                height={4}
-                strokeWidth={1}
-                opacity=".55"
-              />
-              <path d="M3 29.2H29" opacity=".35" />
-              <g className="a-hoop">
-                <circle
-                  cx={16}
-                  cy={8}
-                  r="3.3"
-                  fill="currentColor"
-                  fillOpacity=".2"
-                />
-                <path
-                  d="M12.7 8h6.6M16 4.7v6.6M13.6 5.7q2.4 2.3 0 4.6M18.4 5.7q-2.4 2.3 0 4.6"
-                  strokeWidth={1}
-                />
-              </g>
-              <path d="M10.3 12h11.4" strokeWidth="1.9" />
-              <g className="a-net">
-                <path
-                  d="M10.8 12.3l1.8 6.2M21.2 12.3l-1.8 6.2M13.4 12.3l1 6.2M18.6 12.3l-1 6.2M11.9 15.6h8.2M12.6 18.5h6.8"
-                  strokeWidth={1}
-                  opacity=".8"
-                />
-              </g>
-            </svg>
-            <span className="dr-nm">{getLanguage(LanguageKey.BASKETBALL)}</span>
-          </button>
-          <button className="dr-sp" aria-current="false">
+
+          <button
+            onClick={() => handleClick(7)}
+            className="dr-sp"
+            aria-current={isActive(7)}
+          >
             <svg
               className="si si-horse"
               style={{ "--t": "-8.972s" }}
@@ -367,7 +357,11 @@ const LeftDrawer = () => {
             </svg>
             <span className="dr-nm">{getLanguage(LanguageKey.HORSE)}</span>
           </button>
-          <button className="dr-sp" aria-current="false">
+          <button
+            onClick={() => handleClick(4339)}
+            className="dr-sp"
+            aria-current={isActive(4339)}
+          >
             <svg
               className="si si-kabaddi"
               style={{ "--t": "-8.972s" }}
@@ -401,6 +395,25 @@ const LeftDrawer = () => {
             </svg>
             <span className="dr-nm">{getLanguage(LanguageKey.KABADDI)}</span>
           </button>
+          {eventNameList.map((item) => {
+            return (
+              <button
+                key={item.id}
+                onClick={() => handleClick(item.id)}
+                className="dr-sp"
+                aria-current={group === item.id ? "true" : "false"}
+              >
+                <img
+                  style={{ filter: "none", height: "18px", width: "18px" }}
+                  data-v-5e69ccab
+                  src={item.image}
+                  alt=""
+                  loading="lazy"
+                />
+                <span className="dr-nm"> {getLanguage(item.name)}</span>
+              </button>
+            );
+          })}
         </nav>
         <div className="dr-links">
           <button className="dr-help">

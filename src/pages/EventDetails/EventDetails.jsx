@@ -10,6 +10,8 @@ import MyBets from "../../components/modules/EventDetails/MyBets";
 import ScoreCardLiveTV from "../../components/modules/EventDetails/ScoreCardLiveTV";
 import MatchHead from "../../components/modules/EventDetails/MatchHead";
 import ToggleButtons from "../../components/modules/EventDetails/ToggleButtons";
+import Premium from "../../components/modules/Home/Premium";
+import HorseGreyhoundEventDetails from "../../components/modules/EventDetails/HorseGreyhoundEventDetails";
 
 const EventDetails = () => {
   const [fancyPremiumTab, setFancyPremiumTab] = useState("");
@@ -131,10 +133,11 @@ const EventDetails = () => {
       fancy.tabGroupName === "Normal" &&
       fancy?.visible == true,
   );
+
   return (
     <main id="main">
       <MatchHead data={data} />
-      <ScoreCardLiveTV />
+      <ScoreCardLiveTV data={data} />
       <MyBets />
 
       {matchOdds?.length > 0 && <MatchOdds data={matchOdds} />}
@@ -151,6 +154,12 @@ const EventDetails = () => {
       {data?.result?.length > 0 && fancyPremiumTab === "fancy" && (
         <Fancy data={data?.result} />
       )}
+      {data?.premium &&
+        data?.premium?.eventId &&
+        fancyPremiumTab === "premium" && <Premium premium={data?.premium} />}
+      {eventTypeId == 7 || eventTypeId == 4339 ? (
+        <HorseGreyhoundEventDetails data={data?.result} />
+      ) : null}
       {tiedMatch?.length > 0 && <MatchOdds data={tiedMatch} />}
       <div style={{ height: "16px" }} />
     </main>

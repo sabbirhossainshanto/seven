@@ -256,7 +256,7 @@ const Register = () => {
                     style={{
                       width: "100%",
                       background:
-                        "color-mix(in srgb, var(--primary-gradient) 30%, transparent)",
+                        "color-mix(in srgb, var(--primary-color) 30%, transparent)",
                       marginBottom: "12px",
                     }}
                   >
@@ -284,7 +284,7 @@ const Register = () => {
                           color: "black",
                           background:
                             tab === "mobile"
-                              ? "var(--primary-gradient)"
+                              ? "var(--primary-color)"
                               : undefined,
                         }}
                       >
@@ -307,7 +307,7 @@ const Register = () => {
                           color: "black",
                           background:
                             tab === "username"
-                              ? "var(--primary-gradient)"
+                              ? "var(--primary-color)"
                               : undefined,
                         }}
                       >
@@ -338,7 +338,7 @@ const Register = () => {
                             position: "absolute",
                             right: "8px",
                             top: "8px",
-                            backgroundColor: "green",
+                            backgroundColor: "var(--primary-color)",
                             borderRadius: "2px",
                             color: "white",
                             fontSize: "12px",
@@ -358,7 +358,7 @@ const Register = () => {
                             position: "absolute",
                             right: "8px",
                             top: "8px",
-                            backgroundColor: "green",
+                            backgroundColor: "var(--primary-color)",
                             borderRadius: "2px",
                             color: "white",
                             fontSize: "12px",

@@ -8,8 +8,14 @@ import {
 } from "../../../redux/features/events/eventSlice";
 import { setShowLoginModal } from "../../../redux/features/global/globalSlice";
 import MobileBetSlip from "./MobileBetSlip";
+import SpeedCashOut from "../../modals/SpeedCashOut/SpeedCashOut";
+import useLanguage from "../../../hooks/use-language";
+import { Settings } from "../../../api";
+import { handleCashOutPlaceBet } from "../../../utils/handleCashoutPlaceBet";
+import { LanguageKey } from "../../../const";
 
 const Bookmaker = ({ data }) => {
+  const { getLanguage } = useLanguage();
   const [speedCashOut, setSpeedCashOut] = useState(null);
   const { eventId } = useParams();
   const [teamProfit, setTeamProfit] = useState([]);
@@ -218,6 +224,12 @@ const Bookmaker = ({ data }) => {
 
   return (
     <Fragment>
+      {speedCashOut && (
+        <SpeedCashOut
+          speedCashOut={speedCashOut}
+          setSpeedCashOut={setSpeedCashOut}
+        />
+      )}
       {data?.length > 0 &&
         data?.map((game) => {
           const teamProfitForGame = teamProfit?.find(
@@ -232,7 +244,72 @@ const Bookmaker = ({ data }) => {
             <div key={game?.id} className="market" id="mk-bm">
               <div className="mk-head">
                 <h3> {game?.name?.toUpperCase()}</h3>
-                <span className="lim">Min 100 · Max 100,000</span>
+                <span
+                  className="matched"
+                  style={{ display: "flex", gap: "10px" }}
+                >
+                  {" "}
+                  {Settings.cashout &&
+                    game?.runners?.length !== 3 &&
+                    game?.status === "OPEN" &&
+                    !speedCashOut && (
+                      <button
+                        onClick={() =>
+                          handleCashOutPlaceBet(
+                            game,
+                            "lay",
+                            dispatch,
+                            pnlBySelection,
+                            token,
+                            teamProfitForGame,
+                          )
+                        }
+                        style={{
+                          cursor: `${
+                            !teamProfitForGame ? "not-allowed" : "pointer"
+                          }`,
+                          opacity: `${!teamProfitForGame ? "0.6" : "1"}`,
+                          padding: "0px",
+                        }}
+                        className="btn login-btn"
+                        id="loginBtn"
+                      >
+                        {getLanguage(LanguageKey.CASHOUT)}{" "}
+                        {teamProfitForGame?.profit &&
+                          `(${teamProfitForGame.profit.toFixed(0)})`}
+                      </button>
+                    )}
+                  {Settings.cashout &&
+                    game?.runners?.length !== 3 &&
+                    game?.status === "OPEN" &&
+                    game?.name !== "toss" &&
+                    speedCashOut && (
+                      <button
+                        onClick={() =>
+                          handleCashOutPlaceBet(
+                            game,
+                            "lay",
+                            dispatch,
+                            pnlBySelection,
+                            token,
+                            teamProfitForGame,
+                          )
+                        }
+                        style={{
+                          padding: "0px",
+                        }}
+                        className="btn login-btn"
+                        id="loginBtn"
+                      >
+                        {getLanguage(LanguageKey.SPEED_CASHOUT)}
+                      </button>
+                    )}
+                </span>
+                <span className="lim">
+                  {" "}
+                  Min {game?.minLiabilityPerBet} · Max{" "}
+                  {game?.maxLiabilityPerBet}
+                </span>
               </div>
               <div className="mk-cols mob">
                 <span />
@@ -270,7 +347,29 @@ const Bookmaker = ({ data }) => {
                     >
                       <div>
                         <span className="nm">{runner?.name}</span>
-                        <span className="book" data-book="1|0|Bookmaker" />
+                        <span className="book" data-book="1|0|Bookmaker">
+                          {pnl && (
+                            <span
+                              className={`${
+                                pnl?.pnl > 0 ? "text-success" : "text-danger"
+                              }`}
+                            >
+                              {pnl?.pnl}
+                            </span>
+                          )}
+
+                          {stake && runnerId && predictOddValues && (
+                            <span
+                              className={` ${
+                                predictOddValues?.exposure > 0
+                                  ? "text-success"
+                                  : "text-danger"
+                              } `}
+                            >
+                              &nbsp;({predictOddValues?.exposure})
+                            </span>
+                          )}
+                        </span>
                       </div>
                       <button
                         onClick={() =>

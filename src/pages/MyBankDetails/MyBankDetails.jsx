@@ -116,7 +116,7 @@ const MyBankDetails = () => {
           onClick={() => dispatch(setAddBank(true))}
           className="btn"
           style={{
-            background: "var(--primary-gradient)",
+            background: "var(--primary-color)",
             color: "white",
           }}
         >
